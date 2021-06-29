@@ -4625,7 +4625,7 @@
             "type": "text"
         },
         "project_name": {
-            "default": "LibreNMS",
+            "default": "eNMS",
             "type": "text"
         },
         "prometheus.enable": {
