@@ -266,7 +266,7 @@ function get_device(Illuminate\Http\Request $request)
 
     // find device matching the id
     $device = device_by_id_cache($device_id);
-    if (! $device) {
+    if (! $device || ! $device['device_id']) {
         return api_error(404, "Device $hostname does not exist");
     }
 
@@ -1405,6 +1405,10 @@ function list_oxidized(Illuminate\Http\Request $request)
                     }
                 }
             }
+        }
+        //Exclude groups from being sent to Oxidized
+        if (in_array($output['group'], Config::get('oxidized.ignore_groups'))) {
+            break;
         }
 
         $return[] = $output;
