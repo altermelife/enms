@@ -4725,7 +4725,7 @@
             "type": "integer"
         },
         "project_home": {
-            "default": "https://www.librenms.org/",
+            "default": "http://enms.ionlotus.com/",
             "type": "text"
         },
         "project_id": {
@@ -4733,7 +4733,7 @@
             "type": "text"
         },
         "project_issues": {
-            "default": "https://community.librenms.org/c/help",
+            "default": "https://support.ionlotus.com",
             "type": "text"
         },
         "project_name": {
