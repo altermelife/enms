@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-md-6">
 
-            <h2>@lang('Remote / Network Management System')</h2>
+            <h1>@lang('Remote / Network Management System')</h1>
             <table class='table table-condensed table-hover'>
                 <tr>
                     <td><b>@lang('Version')</b></td>
