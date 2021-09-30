@@ -17,12 +17,12 @@
                 <div style='font-weight: bold; font-size: 7pt; margin: -3px;'>{{ $graph['popup_title'] }}</div>
             </div>
         @endforeach
-     </div>
      <br style="clear: both;"/>
         <div class="box">
-            <iframe src="http://{{ $device->hostname }}/cgi-bin/currentfault_info" frameborder="0" scrolling="no" width="75%" height="500" align="left"></iframe>
+            <iframe src="http://{{ $device->hostname }}/cgi-bin/currentfault_info" frameborder="0" scrolling="no" width="360" height="500" align="left"></iframe>
          </div>
          <div class="box">
-            <iframe src="http://{{ $device->hostname }}/cgi-bin/home" frameborder="0" scrolling="no" width="100%" height="500" align="right"></iframe>
+            <iframe src="http://{{ $device->hostname }}/cgi-bin/home" frameborder="0" scrolling="no" width="840" height="500" align="right"></iframe>
          </div>
+     </div>
 </x-panel>
