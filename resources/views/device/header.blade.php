@@ -20,6 +20,6 @@
         <br style="clear: both;"/>
     </div>
     <div class="container">
-        <iframe src="http://{{ $device->hostname }}/cgi-bin/currentfault_info" style="vertical-align:top; height:380px; width:380px;" frameborder="0"></iframe> <iframe src="http://{{ $device->hostname }}/cgi-bin/home" style="text-align: left; vertical-align:top; height:500px; width:820px;" frameborder="0" scrolling="no"></iframe>
+        <iframe src="http://{{ $device->hostname }}/cgi-bin/currentfault_info" style="vertical-align:top; height:360px; width:360px;" frameborder="0"></iframe> <iframe src="http://{{ $device->hostname }}/cgi-bin/home" style="text-align: left; vertical-align:top; height:500px; width:820px;" frameborder="0" scrolling="no"></iframe>
     </div>
 </x-panel>
