@@ -1,3 +1,10 @@
+.box{
+    float:left;
+    margin-right:20px;
+}
+.clear{
+    clear:both;
+}
 .fa-nav-icons {
     color: #383637;
 }
