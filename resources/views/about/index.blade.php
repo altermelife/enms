@@ -1,5 +1,5 @@
 @extends('layouts.librenmsv1')
-
+  
 @section('title', __('About'))
 
 @section('content')
@@ -24,11 +24,11 @@
     <div class="row">
         <div class="col-md-6">
 
-            <h3>@lang('LibreNMS is an autodiscovering PHP/MySQL-based network monitoring system')</h3>
+            <h2>@lang('Remote / Network Management System')</h2>
             <table class='table table-condensed table-hover'>
                 <tr>
                     <td><b>@lang('Version')</b></td>
-                    <td><a target="_blank" href='https://www.librenms.org/changelog.html'>{{ $version_local }}<span id='version_date' style="display: none;">{{ $git_date }}</span></a></td>
+                    <td>{{ $version_local }}<span id='version_date' style="display: none;">{{ $git_date }}</span></td>
                 </tr>
                 <tr>
                     <td><b>@lang('Database Schema')</b></td>
@@ -37,7 +37,7 @@
                 <tr>
                     <td><b>@lang('Web Server')</b></td>
                     <td>{{ $version_webserver }}</td>
-                </tr>
+				</tr>
                 <tr>
                     <td><b>@lang('PHP')</b></td>
                     <td>{{ $version_php }}</td>
@@ -50,69 +50,34 @@
                     <td><b>@lang('MySQL')</b></td>
                     <td>{{ $version_mysql }}</td>
                 </tr>
-                <tr>
-                    <td><a href="https://laravel.com/"><b>@lang('Laravel')</b></a></td>
+                                <tr>
+                    <td><b>@lang('Laravel')</b></td>
                     <td>{{ $version_laravel }}</td>
                 </tr>
                 <tr>
-                    <td><a href="https://oss.oetiker.ch/rrdtool/"><b>@lang('RRDtool')</b></a></td>
+                    <td><b>@lang('RRDtool')</b></td>
                     <td>{{ $version_rrdtool }}</td>
                 </tr>
             </table>
 
-          <h3>@lang('LibreNMS is a community-based project')</h3>
-          <p>
-            @lang('Please feel free to join us and contribute code, documentation, and bug reports:')
-            <br />
-            <a target="_blank" href="https://www.librenms.org/">@lang('Web site')</a> |
-            <a target="_blank" href="https://docs.librenms.org/">@lang('Docs')</a> |
-            <a target="_blank" href="https://github.com/librenms/">@lang('GitHub')</a> |
-            <a target="_blank" href="https://community.librenms.org/c/help">@lang('Bug tracker')</a> |
-            <a target="_blank" href="https://community.librenms.org">@lang('Community Forum')</a> |
-            <a target="_blank" href="https://twitter.com/librenms">@lang('Twitter')</a> |
-            <a target="_blank" href="https://www.librenms.org/changelog.html">@lang('Changelog')</a> |
-            <a href="#" data-toggle="modal" data-target="#git_log">@lang('Local git log')</a>
-          </p>
+          <h2>@lang('Deployment on Google Cloud')</h2>
+          &middot; Compute Engine specifications depend on number of sites to manage<br>
+          &middot; Full turn-key solution includes:<br>
+          &nbsp; &nbsp; &nbsp; &middot; Cloud VPN Service<br>
+          &nbsp; &nbsp; &nbsp; &middot; Sites and Users to connect remotely via VPN<br>
+          &nbsp; &nbsp; &nbsp; &middot; <a href="https://www.ionlotus.com/docs/industrial_routers.pdf" target="_blank">Industrial 4G Routers</a>
 
-          <h3>@lang('Contributors')</h3>
-
-          <p>@lang('See the <a href=":url">list of contributors</a> on GitHub.', ['url' => 'https://github.com/librenms/librenms/blob/master/AUTHORS.md'])</p>
-
-          <h3>@lang('Acknowledgements')</h3>
-
-          <b>Bruno Pramont</b> Collectd code.<br />
-          <b>Dennis de Houx</b> Application monitors for PowerDNS, Shoutcast, NTPD (Client, Server).<br />
-          <b>Erik Bosrup</b> Overlib Library.<br />
-          <b>Jonathan De Graeve</b> SNMP code improvements.<br />
-          <b>Observium</b> Codebase for fork.<br />
-
+          <h2>@lang('Deployment on Private Network')</h2>
+          &middot; Utilize Physical or Virtual Server on LAN<br>
+          &middot; Server, Sites and Users must be connected to the same LAN<br>
+          &middot; Network Design can be discussed and assisted by iONLOTUS, free-of-charge
       </div>
       <div class="col-md-6">
-
-        <h3>@lang('Statistics')</h3>
+        for: <a href="https://www.enetek-power.com" target="_blank"><img src="images/enetek-logo.png" style="height:75px; border:0;"></a>
+		
+		<h2>@lang('Statistics')</h2>
 
         <table class='table table-condensed'>
-
-            @admin
-            <tr>
-                <td colspan='4'>
-                    <span class='bg-danger'>
-                        <label for="callback">@lang('Opt in to send anonymous usage statistics to LibreNMS?')</label><br />
-                    </span>
-                    <input type="checkbox" id="callback" data-size="normal" name="statistics" @if($callback_status) checked @endif>
-                    <br />
-                    @lang('Online stats:') <a target="_blank" href='https://stats.librenms.org/'>stats.librenms.org</a>
-                </td>
-            </tr>
-
-            @isset($callback_uuid)
-            <tr>
-                <td colspan='4'>
-                    <button class='btn btn-danger btn-xs' type='submit' name='clear-stats' id='clear-stats'>@lang('Clear remote stats')</button>
-                </td>
-            </tr>
-            @endisset
-            @endadmin
 
             <tr>
                 <td><i class='fa fa-fw fa-server fa-lg icon-theme' aria-hidden='true'></i> <b>@lang('Devices')</b></td>
@@ -136,10 +101,10 @@
                 <td><i class='fa fa-fw fa-cogs fa-lg icon-theme' aria-hidden='true'></i> <b>@lang('Services')</b></td>
                 <td class='text-right'>{{ $stat_services }}</td>
                 <td><i class='fa fa-fw fa-cubes fa-lg icon-theme' aria-hidden='true'></i> <b>@lang('Applications')</b></td>
-                <td class='text-right'>{{ $stat_apps }}</td>
+                                <td class='text-right'>{{ $stat_apps }}</td>
             </tr>
             <tr>
-                <td><i class='fa fa-fw fa-microchip fa-lg icon-theme' aria-hidden='true'></i> <b>@lang('Processors')</b></td>
+				<td><i class='fa fa-fw fa-microchip fa-lg icon-theme' aria-hidden='true'></i> <b>@lang('Processors')</b></td>
                 <td class='text-right'>{{ $stat_processors }}</td>
                 <td><i class='fa fa-fw fa-braille fa-lg icon-theme' aria-hidden='true'></i> <b>@lang('Memory')</b></td>
                 <td class='text-right'>{{ $stat_memory }}</td>
@@ -168,7 +133,7 @@
                 <td><i class='fa fa-fw fa-wifi fa-lg icon-theme' aria-hidden='true'></i> <b>@lang('Wireless Sensors')</b></td>
                 <td class='text-right'>{{ $stat_wireless }}</td>
             </tr>
-            <tr>
+			<tr>
                 <td><i class='fa fa-fw fa-print fa-lg icon-theme' aria-hidden='true'></i> <b>@lang('Toner')</b></td>
                 <td class='text-right'>{{ $stat_toner }}</td>
                 <td></td>
@@ -176,24 +141,10 @@
             </tr>
         </table>
 
-        <h3>@lang('License')</h3>
-        <pre>
-Copyright (C) 2013-{{ date('Y') }} {{ $project_name }} Contributors
-Copyright (C) 2006-2012 Adam Armstrong
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <a target="_blank" href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.</pre>
-
+        <h2>@lang('Development &amp; Support')</h2>
+        iONLOTUS Information Technology Solutions, Makati City, Philippines<br>
+        Email: <a href="mailto:devops@ionlotus.com">DevOps Team</a><br>
+        <a href="https://support.ionlotus.com" target="_blank">Support Ticket System</a>
         </div>
     </div>
 </div>
@@ -222,7 +173,7 @@ along with this program.  If not, see <a target="_blank" href="https://www.gnu.o
             url: 'ajax_form.php',
             data: { type: "callback-clear"},
             dataType: "json",
-            success: function(data){
+			success: function(data){
                 location.reload(true);
             },
             error:function(){}
