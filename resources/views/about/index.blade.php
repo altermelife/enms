@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-md-6">
 
-            <h3>@lang('Remote / Network Management System')</h3>
+            <h3 style="font-weight:400; font-size:24px;">@lang('Remote / Network Management System')</h3>
             <table class='table table-condensed table-hover'>
                 <tr>
                     <td><b>@lang('Version')</b></td>
@@ -60,23 +60,23 @@
                 </tr>
             </table>
 
-          <h3>@lang('Deployment on Google Cloud')</h3>
+          <h3 style="font-weight:400; font-size:24px;">@lang('Deployment on Google Cloud')</h3>
           &middot; Compute Engine specifications depend on number of sites to manage<br>
           &middot; Full turn-key solution includes:<br>
           &nbsp; &nbsp; &nbsp; &middot; Cloud VPN Service<br>
           &nbsp; &nbsp; &nbsp; &middot; Sites and Users to connect remotely via VPN<br>
           &nbsp; &nbsp; &nbsp; &middot; Industrial 4G Routers
 
-          <h3>@lang('Deployment on Private Network')</h3>
+          <h3 style="font-weight:400; font-size:24px;">@lang('Deployment on Private Network')</h3>
           &middot; Utilize Physical or Virtual Server on LAN<br>
           &middot; Server, Sites and Users must be connected to the same LAN<br>
           &middot; Network Design can be discussed and assisted, free-of-charge
       </div>
       <div class="col-md-6">
-        by: <a href="https://www.enetek-power.com" target="_blank"><img src="images/enetek-logo.png" height="75" border="0"></a>
+        by: <a href="https://www.enetek-power.com" target="_blank"><img src="images/enetek-logo.png" style="height:75px;" border="0"></a>
 		
 		
-        <h3>@lang('Statistics')</h3>
+        <h3 style="font-weight:400; font-size:24px;">@lang('Statistics')</h3>
 
         <table class='table table-condensed'>
 
@@ -141,7 +141,7 @@
             </tr>
         </table>
 		
-        <h3>@lang('Development &amp; Support')</h3>
+        <h3 style="font-weight:400; font-size:24px;">@lang('Development &amp; Support')</h3>
         Enetek Power Group Pte Ltd, Singapore<br>
         </div>
     </div>
