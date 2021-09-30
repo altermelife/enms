@@ -19,10 +19,14 @@
         @endforeach
         <br style="clear: both;"/>
     </div>
-    <div class="box">
-        <iframe src="http://{{ $device->hostname }}/cgi-bin/currentfault_info" frameborder="0" scrolling="no" width="360" height="400" align="left"></iframe>
-    </div>
-    <div class="box">
-        <iframe src="http://{{ $device->hostname }}/cgi-bin/home" frameborder="0" scrolling="no" width="820" height="500" align="right"></iframe>
+    <div class="row">
+        <div class="container">
+            <div class="box">
+                <iframe src="http://{{ $device->hostname }}/cgi-bin/currentfault_info" frameborder="0" scrolling="no" width="360" height="400" align="left"></iframe>
+            </div>
+            <div class="box">
+                <iframe src="http://{{ $device->hostname }}/cgi-bin/home" frameborder="0" scrolling="no" width="820" height="500" align="right"></iframe>
+            </div>
+        </div>
     </div>
 </x-panel>
