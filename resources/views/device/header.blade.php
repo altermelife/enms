@@ -18,10 +18,10 @@
             </div>
         @endforeach
      <br style="clear: both;"/>
-        <div class="box" style="clear: both;">
-            <iframe src="http://{{ $device->hostname }}/cgi-bin/currentfault_info" frameborder="0" scrolling="no" width="340" height="500" align="left"></iframe>
+        <div class="box">
+            <iframe src="http://{{ $device->hostname }}/cgi-bin/currentfault_info" frameborder="0" scrolling="no" width="320" height="500" align="left"></iframe>
          </div>
-         <div class="box" style="clear: both;">
+         <div class="box">
             <iframe src="http://{{ $device->hostname }}/cgi-bin/home" frameborder="0" scrolling="no" width="820" height="500" align="right"></iframe>
          </div>
      </div>
