@@ -1,6 +1,12 @@
-.box{
+.box-left{
     float:left;
+    margin-left:10px;
+    width: 340px;
+}
+.box-right{
+    float:right;
     margin-right:10px;
+    width: 820px;
 }
 .clear{
     clear:both;
