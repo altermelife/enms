@@ -65,7 +65,7 @@
           &middot; Full turn-key solution includes:<br>
           &nbsp; &nbsp; &nbsp; &middot; Cloud VPN Service<br>
           &nbsp; &nbsp; &nbsp; &middot; Sites and Users to connect remotely via VPN<br>
-          &nbsp; &nbsp; &nbsp; &middot; <a href="https://www.ionlotus.com/docs/industrial_routers.pdf" target="_blank">Industrial 4G Routers</a>
+          &nbsp; &nbsp; &nbsp; &middot; <a href="https://www.ionlotus.com/docs/industrial_routers.pdf" target="_blank">Industrial 4G Routers</a><br/><br/>
 
           <strong>@lang('Deployment on Private Network')</strong><br/><br/>
           &middot; Utilize Physical or Virtual Server on LAN<br>
