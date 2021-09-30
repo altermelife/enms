@@ -19,4 +19,7 @@
         @endforeach
         <br style="clear: both;"/>
     </div>
+    <div>
+        <iframe src="http://{{ $device->hostname }}:8089/cgi-bin/home" style="text-align: left; vertical-align:top; height:500px; width:900px;" frameborder="0" scrolling="no"></iframe>
+    </div>
 </x-panel>
