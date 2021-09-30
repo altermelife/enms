@@ -19,7 +19,10 @@
         @endforeach
         <br style="clear: both;"/>
     </div>
-    <div class="pull-left" style="margin-top: 5px;">
-        <iframe src="http://{{ $device->hostname }}/cgi-bin/currentfault_info" style="position:relative; left:5px; height:360px; width:360px;" frameborder="0"></iframe><iframe src="http://{{ $device->hostname }}/cgi-bin/home" style="position:relative; left:5px; height:500px; width:820px;" frameborder="0" scrolling="no"></iframe>
+    <div style="float:left; margin-right:10px; margin-top: 5px;">
+        <iframe align="left" src="http://{{ $device->hostname }}/cgi-bin/currentfault_info" height="100%" width="360" frameborder="0" scrolling="no"></iframe>
+    </div>
+    <div style="float:left; margin-right:10px; margin-top: 5px;">
+        <iframe align="right" src="http://{{ $device->hostname }}/cgi-bin/home" height="100%" width="820" frameborder="0" scrolling="no"></iframe>
     </div>
 </x-panel>
