@@ -1,5 +1,5 @@
 @extends('layouts.librenmsv1')
-  
+
 @section('title', __('About'))
 
 @section('content')
@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-md-6">
 
-            <strong>@lang('Remote / Network Management System')</strong><br/><br/>
+            <h3>@lang('Remote / Network Management System')</h3>
             <table class='table table-condensed table-hover'>
                 <tr>
                     <td><b>@lang('Version')</b></td>
@@ -60,22 +60,23 @@
                 </tr>
             </table>
 
-          <strong>@lang('Deployment on Google Cloud')</strong><br/>
+          <h3>@lang('Deployment on Google Cloud')</h3>
           &middot; Compute Engine specifications depend on number of sites to manage<br>
           &middot; Full turn-key solution includes:<br>
           &nbsp; &nbsp; &nbsp; &middot; Cloud VPN Service<br>
           &nbsp; &nbsp; &nbsp; &middot; Sites and Users to connect remotely via VPN<br>
-          &nbsp; &nbsp; &nbsp; &middot; <a href="https://www.ionlotus.com/docs/industrial_routers.pdf" target="_blank">Industrial 4G Routers</a><br/><br/>
+          &nbsp; &nbsp; &nbsp; &middot; Industrial 4G Routers
 
-          <strong>@lang('Deployment on Private Network')</strong><br/>
+          <h3>@lang('Deployment on Private Network')</h3>
           &middot; Utilize Physical or Virtual Server on LAN<br>
           &middot; Server, Sites and Users must be connected to the same LAN<br>
-          &middot; Network Design can be discussed and assisted by iONLOTUS, free-of-charge
+          &middot; Network Design can be discussed and assisted, free-of-charge
       </div>
       <div class="col-md-6">
-        for: <a href="https://www.enetek-power.com" target="_blank"><img src="images/enetek-logo.png" style="height:75px; border:0;"></a>
+        by: <a href="https://www.enetek-power.com" target="_blank"><img src="images/enetek-logo.png" height="75" border="0"></a>
 		
-		<strong>@lang('Statistics')</strong><br/>
+		
+        <h3>@lang('Statistics')</h3>
 
         <table class='table table-condensed'>
 
@@ -104,11 +105,11 @@
                                 <td class='text-right'>{{ $stat_apps }}</td>
             </tr>
             <tr>
-				<td><i class='fa fa-fw fa-microchip fa-lg icon-theme' aria-hidden='true'></i> <b>@lang('Processors')</b></td>
+                <td><i class='fa fa-fw fa-microchip fa-lg icon-theme' aria-hidden='true'></i> <b>@lang('Processors')</b></td>
                 <td class='text-right'>{{ $stat_processors }}</td>
                 <td><i class='fa fa-fw fa-braille fa-lg icon-theme' aria-hidden='true'></i> <b>@lang('Memory')</b></td>
                 <td class='text-right'>{{ $stat_memory }}</td>
-            </tr>
+				</tr>
             <tr>
                 <td><i class='fa fa-fw fa-database fa-lg icon-theme' aria-hidden='true'></i> <b>@lang('Storage')</b></td>
                 <td class='text-right'>{{ $stat_storage }}</td>
@@ -118,8 +119,7 @@
             <tr>
                 <td><i class='fa fa-fw fa-cube fa-lg icon-theme' aria-hidden='true'></i> <b>@lang('HR-MIB')</b></td>
                 <td class='text-right'>{{ $stat_hrdev }}</td>
-                <td><i class='fa fa-fw fa-cube fa-lg icon-theme' aria-hidden='true'></i> <b>@lang('Entity-MIB')</b></td>
-                <td class='text-right'>{{ $stat_entphys }}</td>
+                <td><i class='fa fa-fw fa-cube fa-lg icon-theme' aria-hidden='true'></i> <b>@lang('Entity-MIB')</b></td>                <td class='text-right'>{{ $stat_entphys }}</td>
             </tr>
             <tr>
                 <td><i class='fa fa-fw fa-clone fa-lg icon-theme' aria-hidden='true'></i> <b>@lang('Syslog Entries')</b></td>
@@ -133,18 +133,16 @@
                 <td><i class='fa fa-fw fa-wifi fa-lg icon-theme' aria-hidden='true'></i> <b>@lang('Wireless Sensors')</b></td>
                 <td class='text-right'>{{ $stat_wireless }}</td>
             </tr>
-			<tr>
+            <tr>
                 <td><i class='fa fa-fw fa-print fa-lg icon-theme' aria-hidden='true'></i> <b>@lang('Toner')</b></td>
                 <td class='text-right'>{{ $stat_toner }}</td>
                 <td></td>
                 <td></td>
             </tr>
         </table>
-
-        <strong>@lang('Development &amp; Support')</strong><br/>
-        iONLOTUS Information Technology Solutions, Makati City, Philippines<br>
-        Email: <a href="mailto:devops@ionlotus.com">DevOps Team</a><br>
-        <a href="https://support.ionlotus.com" target="_blank">Support Ticket System</a>
+		
+        <h3>@lang('Development &amp; Support')</h3>
+        Enetek Power Group Pte Ltd, Singapore<br>
         </div>
     </div>
 </div>
@@ -173,7 +171,7 @@
             url: 'ajax_form.php',
             data: { type: "callback-clear"},
             dataType: "json",
-			success: function(data){
+            success: function(data){
                 location.reload(true);
             },
             error:function(){}
@@ -181,7 +179,7 @@
     });
 
     var ver_date = $('#version_date');
-    if (ver_date.text()) {
+	if (ver_date.text()) {
         ver_date.text(' - '.concat(moment.unix(ver_date.text()))).show();
     }
 </script>
