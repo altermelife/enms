@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-md-6">
 
-            <strong>@lang('Remote / Network Management System')</strong>
+            <strong>@lang('Remote / Network Management System')</strong><br/><br/>
             <table class='table table-condensed table-hover'>
                 <tr>
                     <td><b>@lang('Version')</b></td>
@@ -60,14 +60,14 @@
                 </tr>
             </table>
 
-          <strong>@lang('Deployment on Google Cloud')</strong>
+          <strong>@lang('Deployment on Google Cloud')</strong><br/><br/>
           &middot; Compute Engine specifications depend on number of sites to manage<br>
           &middot; Full turn-key solution includes:<br>
           &nbsp; &nbsp; &nbsp; &middot; Cloud VPN Service<br>
           &nbsp; &nbsp; &nbsp; &middot; Sites and Users to connect remotely via VPN<br>
           &nbsp; &nbsp; &nbsp; &middot; <a href="https://www.ionlotus.com/docs/industrial_routers.pdf" target="_blank">Industrial 4G Routers</a>
 
-          <strong>@lang('Deployment on Private Network')</strong>
+          <strong>@lang('Deployment on Private Network')</strong><br/><br/>
           &middot; Utilize Physical or Virtual Server on LAN<br>
           &middot; Server, Sites and Users must be connected to the same LAN<br>
           &middot; Network Design can be discussed and assisted by iONLOTUS, free-of-charge
@@ -75,7 +75,7 @@
       <div class="col-md-6">
         for: <a href="https://www.enetek-power.com" target="_blank"><img src="images/enetek-logo.png" style="height:75px; border:0;"></a>
 		
-		<strong>@lang('Statistics')</strong>
+		<strong>@lang('Statistics')</strong><br/><br/>
 
         <table class='table table-condensed'>
 
@@ -141,7 +141,7 @@
             </tr>
         </table>
 
-        <strong>@lang('Development &amp; Support')</strong>
+        <strong>@lang('Development &amp; Support')</strong><br/><br/>
         iONLOTUS Information Technology Solutions, Makati City, Philippines<br>
         Email: <a href="mailto:devops@ionlotus.com">DevOps Team</a><br>
         <a href="https://support.ionlotus.com" target="_blank">Support Ticket System</a>
