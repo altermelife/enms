@@ -19,10 +19,10 @@
         @endforeach
         <br style="clear: both;"/>
     </div>
-    <div style="float:left; margin-right:5px; margin-top: 5px;">
+    <div style="float:left;">
         <iframe align="left" src="http://{{ $device->hostname }}/cgi-bin/currentfault_info" height="400" width="360" frameborder="0" scrolling="no"></iframe>
     </div>
-    <div style="float:left; margin-right:5px; margin-top: 5px;">
+    <div style="float:right;">
         <iframe align="right" src="http://{{ $device->hostname }}/cgi-bin/home" height="500" width="820" frameborder="0" scrolling="no"></iframe>
     </div>
 </x-panel>
