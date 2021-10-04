@@ -1,0 +1,8143 @@
+Enetek DEFINITIONS ::= BEGIN
+
+IMPORTS
+   enterprises, IpAddress, Gauge, TimeTicks     FROM RFC1155-SMI
+   DisplayString                                FROM RFC1213-MIB
+   OBJECT-TYPE                                  FROM RFC-1212
+   TRAP-TYPE                                    FROM RFC-1215
+   NOTIFICATION-TYPE,Integer32					FROM SNMPv2-SMI;
+
+enetek											OBJECT IDENTIFIER ::=  { enterprises 53318 }
+sysinfo											OBJECT IDENTIFIER ::=  { enetek 100 }
+acinfo											OBJECT IDENTIFIER ::=  { enetek 1 }
+dcinfo											OBJECT IDENTIFIER ::=  { enetek 2 }
+rectifier										OBJECT IDENTIFIER ::=  { enetek 3 }
+control											OBJECT IDENTIFIER ::=  { enetek 4 }
+extrastate									OBJECT IDENTIFIER ::=  { enetek 5 }
+dcminfo											OBJECT IDENTIFIER ::=  { enetek 6 }
+peakinfo										OBJECT IDENTIFIER ::=  { enetek 7 }
+acmainsmonitor1							OBJECT IDENTIFIER ::=  { acinfo 1 }
+acmainsmonitor2							OBJECT IDENTIFIER ::=  { acinfo 2 }
+acmainsmonitor1int					OBJECT IDENTIFIER ::=  { acmainsmonitor1 1 }
+acmainsmonitor2int					OBJECT IDENTIFIER ::=  { acmainsmonitor2 1 }
+dcmonitor										OBJECT IDENTIFIER ::=  { dcinfo 1 }
+dcmonitorinfo								OBJECT IDENTIFIER ::=  { dcmonitor 1 }
+dcbranchcurrent							OBJECT IDENTIFIER ::=  { dcmonitor 2 }
+dcmonitorkwh								OBJECT IDENTIFIER ::=  { dcinfo 2 }
+dcbatterydata								OBJECT IDENTIFIER ::=  { dcinfo 3 }
+dcbatterygroup1							OBJECT IDENTIFIER ::=  { dcbatterydata 1 }
+dcbatterygroup2							OBJECT IDENTIFIER ::=  { dcbatterydata 2 }
+rectifiers									OBJECT IDENTIFIER ::=  { rectifier 1 }
+systemcontrol								OBJECT IDENTIFIER ::=  { control 1 }
+batterycontrol							OBJECT IDENTIFIER ::=  { control 2 }
+rectifierscontrol						OBJECT IDENTIFIER ::=  { control 3 }
+alarmthresholds							OBJECT IDENTIFIER ::=  { control 4 }
+batteryconfig								OBJECT IDENTIFIER ::=  { control 5 }
+lvdcontrol									OBJECT IDENTIFIER ::=  { control 6 }
+generatorcontrol						OBJECT IDENTIFIER ::=  { control 7 }
+acalarmthresholds						OBJECT IDENTIFIER ::=  { alarmthresholds 1 }
+temperaturealarmthresholds	OBJECT IDENTIFIER ::=  { alarmthresholds 2 }
+voltagealarmthresholds			OBJECT IDENTIFIER ::=  { alarmthresholds 3 }
+lvdalarmthresholds					OBJECT IDENTIFIER ::=  { alarmthresholds 4 }
+fanalarmthresholds					OBJECT IDENTIFIER ::=  { alarmthresholds 5 }
+dormancyparameter						OBJECT IDENTIFIER ::=  { alarmthresholds 6 }
+lvd1control									OBJECT IDENTIFIER ::=  { lvdcontrol 1 }
+lvd2control									OBJECT IDENTIFIER ::=  { lvdcontrol 2 }
+lvd3control									OBJECT IDENTIFIER ::=  { lvdcontrol 3 }
+lvd4control									OBJECT IDENTIFIER ::=  { lvdcontrol 4 }
+lvd5control									OBJECT IDENTIFIER ::=  { lvdcontrol 5 }
+dcdbinfo										OBJECT IDENTIFIER ::=  { dcminfo 1 }
+peakst											OBJECT IDENTIFIER ::=  { peakinfo 1 }
+peakrecord									OBJECT IDENTIFIER ::=  { peakinfo 2 }
+
+	ALARMS			::=   INTEGER { idle(0), active(1) }
+
+--batteryconfig	
+batterybanks OBJECT-TYPE
+   SYNTAX INTEGER (0.. 4)
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "No. of Banks"
+   ::= { batteryconfig 1 }
+   
+battery1capacity OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "Ah"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "capacity of battery group 1"
+   ::= { batteryconfig 2 }
+
+battery2capacity OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "Ah"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "capacity of battery group 2"
+   ::= { batteryconfig 3 }
+   
+battery3capacity OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "Ah"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "capacity of battery group 3"
+   ::= { batteryconfig 4 }
+   
+battery4capacity OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "Ah"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "capacity of battery group 4"
+   ::= { batteryconfig 5 }
+	
+totalcapacity OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "Ah"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "total capacity of battery "
+   ::= { batteryconfig 6 }
+   
+batterytype OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Battery Type"
+   ::= { batteryconfig 7 }
+
+batterylimit OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Battery current limit enable"
+   ::= { batteryconfig 8 }
+	
+batterychargelimit OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "%"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Battery charge current limit percent"
+   ::= { batteryconfig 9 }
+   
+--lvdcontrol
+lvd1reconnect OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "0.1V"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 1 reconnect voltage"
+   ::= { lvd1control 1 }
+   
+lvd1disconnect OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "0.1V"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 1 disconnect voltage"
+   ::= { lvd1control 2 }
+
+lvd1aconenable OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 1 AC connect dependent"
+   ::= { lvd1control 3 }
+  
+lvd1acontime OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "minute"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 1 AC connect confirmed time"
+   ::= { lvd1control 4 }
+      
+lvd1acoffenable OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 1 AC disconnect dependent"
+   ::= { lvd1control 5 }
+  
+lvd1acofftime OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "minute"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 1 AC disconnect confirmed time"
+   ::= { lvd1control 6 }
+
+lvd1temptenable OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 1 tempterature enable"
+   ::= { lvd1control 7 }
+
+lvd2reconnect OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "0.1V"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 2 reconnect voltage"
+   ::= { lvd2control 1 }
+   
+lvd2disconnect OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "0.1V"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 2 disconnect voltage"
+   ::= { lvd2control 2 }
+
+lvd2aconenable OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 2 AC connect dependent"
+   ::= { lvd2control 3 }
+  
+lvd2acontime OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "minute"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 2 AC connect confirmed time"
+   ::= { lvd2control 4 }
+      
+lvd2acoffenable OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 2 AC disconnect dependent"
+   ::= { lvd2control 5 }
+  
+lvd2acofftime OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "minute"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 2 AC disconnect confirmed time"
+   ::= { lvd2control 6 }
+
+lvd2temptenable OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 2 tempterature enable"
+   ::= { lvd2control 7 }
+
+lvd3reconnect OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "0.1V"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 3 reconnect voltage"
+   ::= { lvd3control 1 }
+   
+lvd3disconnect OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "0.1V"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 3 disconnect voltage"
+   ::= { lvd3control 2 }
+
+lvd3aconenable OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 3 AC connect dependent"
+   ::= { lvd3control 3 }
+  
+lvd3acontime OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "minute"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 3 AC connect confirmed time"
+   ::= { lvd3control 4 }
+      
+lvd3acoffenable OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 3 AC disconnect dependent"
+   ::= { lvd3control 5 }
+  
+lvd3acofftime OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "minute"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 3 AC disconnect confirmed time"
+   ::= { lvd3control 6 }
+
+lvd3temptenable OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 3 tempterature enable"
+   ::= { lvd3control 7 }
+
+lvd4reconnect OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "0.1V"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 4 reconnect voltage"
+   ::= { lvd4control 1 }
+   
+lvd4disconnect OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "0.1V"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 4 disconnect voltage"
+   ::= { lvd4control 2 }
+
+lvd4aconenable OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 4 AC connect dependent"
+   ::= { lvd4control 3 }
+  
+lvd4acontime OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "minute"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 4 AC connect confirmed time"
+   ::= { lvd4control 4 }
+      
+lvd4acoffenable OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 4 AC disconnect dependent"
+   ::= { lvd4control 5 }
+  
+lvd4acofftime OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "minute"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 4 AC disconnect confirmed time"
+   ::= { lvd4control 6 }
+
+lvd4temptenable OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 4 tempterature enable"
+   ::= { lvd4control 7 }
+   
+lvd5reconnect OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "0.1V"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 5 reconnect voltage"
+   ::= { lvd5control 1 }
+   
+lvd5disconnect OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "0.1V"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 5 disconnect voltage"
+   ::= { lvd5control 2 }
+
+lvd5aconenable OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 5 AC connect dependent"
+   ::= { lvd5control 3 }
+  
+lvd5acontime OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "minute"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 5 AC connect confirmed time"
+   ::= { lvd5control 4 }
+      
+lvd5acoffenable OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 5 AC disconnect dependent"
+   ::= { lvd5control 5 }
+  
+lvd5acofftime OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "minute"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 5 AC disconnect confirmed time"
+   ::= { lvd5control 6 }
+
+lvd5temptenable OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 5 tempterature enable"
+   ::= { lvd5control 7 }
+      
+--generatorcontrol
+generatorselection OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Generator selection"
+   ::= { generatorcontrol 1 }
+   
+batterycurrentlimit OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "%"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Battery current limit when generator is running"
+   ::= { generatorcontrol 2 }
+   
+batterycapacityenable OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Battery capacity to start or stop generator enable"
+   ::= { generatorcontrol 3 }
+   
+startsoc OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "%"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Battery soc start generator"
+   ::= { generatorcontrol 4 }
+
+stopsoc OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "%"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Battery soc stop generator"
+   ::= { generatorcontrol 5 }
+   
+lowvoltageenable OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Low voltage to start generator enable"
+   ::= { generatorcontrol 6 }
+   
+startvoltage OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "0.01V"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "low voltage to start generator"
+   ::= { generatorcontrol 7 }
+
+chargeduration OBJECT-TYPE
+   SYNTAX INTEGER 
+   UNITS "0.1hour"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "charge duration generator"
+   ::= { generatorcontrol 8 }
+		
+--SYSTEM INFORMATION
+systemsiteid OBJECT-TYPE
+   SYNTAX DisplayString
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "System Site ID"
+   ::= { sysinfo 1 }
+   
+systemsernum OBJECT-TYPE
+   SYNTAX DisplayString
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "System Serial Number"
+   ::= { sysinfo 2 }
+
+controllersn OBJECT-TYPE
+   SYNTAX DisplayString
+   UNITS ""
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "controller Serial number"
+   ::= { sysinfo 3 }
+   
+-- DCDB INFORMATION
+dcdbTable OBJECT-TYPE
+    SYNTAX SEQUENCE OF DcdbEntry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+        "dcdb information table"
+    ::= { dcdbinfo 1 }
+
+dcdbEntry OBJECT-TYPE
+    SYNTAX DcdbEntry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+        ""
+    INDEX { dcdbnumber }
+     ::= { dcdbTable 1 }
+
+DcdbEntry ::=
+    SEQUENCE {
+	dcdbnumber
+		INTEGER,
+	dcdbvoltage
+		INTEGER,
+  dcdbloadcurrent
+    INTEGER,
+  dcdbtotalcurrent
+    INTEGER
+}
+
+dcdbnumber  OBJECT-TYPE
+    SYNTAX INTEGER (0.. 255)
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+        "number of dcdb"
+    ::= { dcdbEntry 1 }
+
+dcdbvoltage OBJECT-TYPE
+    SYNTAX INTEGER
+		UNITS "V"
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+        "dcdb bus voltage"
+    ::= { dcdbEntry 2 }
+
+dcdbloadcurrent OBJECT-TYPE
+    SYNTAX INTEGER
+    UNITS "A"
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+        "dcdb load current"
+    ::= { dcdbEntry 3 }
+
+dcdbtotalcurrent OBJECT-TYPE
+    SYNTAX INTEGER
+    UNITS "A"
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+        "dcdb total current"
+    ::= { dcdbEntry 4 }
+   
+-- PEAK INFORMATION
+peakstatus OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS ""
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Peak Status"
+   ::= { peakst 1 }
+
+peakmoney OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS ""
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Peak Total Money"
+   ::= { peakst 2 }
+   
+peakrecordTable OBJECT-TYPE
+    SYNTAX SEQUENCE OF PeakrecordEntry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+        "peak load records table"
+    ::= { peakrecord 1 }
+
+peakrecordEntry OBJECT-TYPE
+    SYNTAX PeakrecordEntry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+        ""
+    INDEX { peakrecordnumber }
+     ::= { peakrecordTable 1 }
+
+PeakrecordEntry ::=
+    SEQUENCE {
+	peakrecordnumber
+		INTEGER,
+	peakloadtotalenergy
+		INTEGER,
+  peaksavebill
+    INTEGER
+	}
+
+peakrecordnumber  OBJECT-TYPE
+    SYNTAX INTEGER (0.. 255)
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+        "number of peak load record"
+    ::= { peakrecordEntry 1 }
+
+peakloadtotalenergy OBJECT-TYPE
+    SYNTAX INTEGER
+		UNITS "Wh"
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+        "Peak Load Total Energy"
+    ::= { peakrecordEntry 2 }
+
+peaksavebill OBJECT-TYPE
+    SYNTAX INTEGER
+    UNITS ""
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+        "Peak Saved Bill"
+    ::= { peakrecordEntry 3 }
+   
+-- AC MONITORING
+ac1voltagephaseaint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volts"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "AC 1 Way A Phase Voltage (UNITS 0.1Volts)"
+   ::= { acmainsmonitor1int 1 }
+
+ac1voltagephasebint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volts"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "AC 1 Way B Phase Voltage (UNITS 0.1Volts)"
+   ::= { acmainsmonitor1int 2 }
+
+ac1voltagephasecint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volts"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "AC 1 Way C Phase Voltage (UNITS 0.1Volts)"
+   ::= { acmainsmonitor1int 3 }
+
+ac1currentphaseaint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "AC 1 Way A Phase Current (UNITS 0.1Amps)"
+   ::= { acmainsmonitor1int 4 }
+
+ac1currentphasebint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "AC 1 Way B Phase Current (UNITS 0.1Amps)"
+   ::= { acmainsmonitor1int 5 }
+
+ac1currentphasecint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "AC 1 Way C Phase Current (UNITS 0.1Amps)"
+   ::= { acmainsmonitor1int 6 }
+
+ac1frequencyint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Hz"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "AC 1 Way Frequency (UNITS 0.1Hz)"
+   ::= { acmainsmonitor1int 7 }
+
+ac2voltagephaseaint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volts"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "AC 2 Way A Phase Voltage (UNITS 0.1Volts)"
+   ::= { acmainsmonitor2int 1 }
+
+ac2voltagephasebint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volts"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "AC 2 Way B Phase Voltage (UNITS 0.1Volts)"
+   ::= { acmainsmonitor2int 2 }
+
+ac2voltagephasecint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volts"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "AC 2 Way C Phase Voltage (UNITS 0.1Volts)"
+   ::= { acmainsmonitor2int 3 }
+
+ac2currentphaseaint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "AC 2 Way A Phase Current (UNITS 0.1Amps)"
+   ::= { acmainsmonitor2int 4 }
+
+ac2currentphasebint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "AC 2 Way B Phase Current (UNITS 0.1Amps)"
+   ::= { acmainsmonitor2int 5 }
+
+ac2currentphasecint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "AC 2 Way C Phase Current (UNITS 0.1Amps)"
+   ::= { acmainsmonitor2int 6 }
+
+ac2frequencyint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Hz"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "AC 2 Way Frequency (UNITS 0.1Hz)"
+   ::= { acmainsmonitor2int 7 }
+
+
+-- DC MONITORING
+systembusvoltageint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volts"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "System Bus Voltage (UNITS 0.1Volts)"
+   ::= { dcmonitorinfo 1 }
+
+rectifiervoltageint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volts"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Rectifier Voltage (UNITS 0.1Volts)"
+   ::= { dcmonitorinfo 2 }
+
+rectifiercurrentint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Rectifier Current (UNITS 0.1Amps)"
+   ::= { dcmonitorinfo 3 }
+
+loadcurrentint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Load Total Current (UNITS 0.1Amps)"
+   ::= { dcmonitorinfo 4 }
+
+systempowerint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.01KW"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "System Total Power (UNITS 0.01KW)"
+   ::= { dcmonitorinfo 5 }
+
+batterycurrentint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Battery Current (UNITS 0.1Amps)"
+   ::= { dcmonitorinfo 6 }
+
+batteryworkstate OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS ""
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Battery Work State
+      0x00:floating charge
+      0x01:equalizing charge
+      0x02:test"
+   ::= { dcmonitorinfo 7 }
+   
+batterytemperatureint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1 DegC"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Battery Temperature (UNITS 0.1 DegC)"
+   ::= { dcmonitorinfo 8 }
+
+ambienttemperatureint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1 DegC"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Ambient Temperature (UNITS 0.1 DegC)"
+   ::= { dcmonitorinfo 9 }
+
+batterysurpluscapacityint OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "AH"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Battery Surplus Capacity (UNITS AH)"
+   ::= { dcmonitorinfo 10 }
+
+batterygroup1current OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Battery Group 1 Current (UNITS 0.1Amps)"
+   ::= { dcmonitorinfo 11 }
+
+batterygroup2current OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Battery Group 2 Current (UNITS 0.1Amps)"
+   ::= { dcmonitorinfo 12 }
+
+batterygroup3current OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Battery Group 1 Current (UNITS 0.1Amps)"
+   ::= { dcmonitorinfo 13 }
+
+batterygroup4current OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Battery Group 1 Current (UNITS 0.1Amps)"
+   ::= { dcmonitorinfo 14 }
+
+battery1halfvoltage OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volt"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Battery Group 1 Half Point Voltage (UNITS 0.1Volts)"
+   ::= { dcmonitorinfo 15 }
+
+battery2halfvoltage OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volt"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Battery Group 2 Half Point Voltage (UNITS 0.1Volts)"
+   ::= { dcmonitorinfo 16 }
+
+battery3halfvoltage OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volt"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Battery Group 1 Half Point Voltage (UNITS 0.1Volts)"
+   ::= { dcmonitorinfo 17 }
+
+battery4halfvoltage OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volt"
+   MAX-ACCESS read-only
+   STATUS current
+   DESCRIPTION
+      "Battery Group 1 Half Point Voltage (UNITS 0.1Volts)"
+   ::= { dcmonitorinfo 18 }
+
+loadcurrent1 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load Current 1 (UNITS 0.1Amps)"
+   ::= { dcbranchcurrent 1 }
+   
+loadcurrent2 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load Current 2 (UNITS 0.1Amps)"
+   ::= { dcbranchcurrent 2 }
+   
+loadcurrent3 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load Current 3 (UNITS 0.1Amps)"
+   ::= { dcbranchcurrent 3 }
+   
+loadcurrent4 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load Current 4 (UNITS 0.1Amps)"
+   ::= { dcbranchcurrent 4 }
+   
+loadcurrent5 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load Current 5 (UNITS 0.1Amps)"
+   ::= { dcbranchcurrent 5 }
+   
+loadcurrent6 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load Current 6 (UNITS 0.1Amps)"
+   ::= { dcbranchcurrent 6 }
+   
+loadcurrent7 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load Current 7 (UNITS 0.1Amps)"
+   ::= { dcbranchcurrent 7 }
+   
+loadcurrent8 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load Current 8 (UNITS 0.1Amps)"
+   ::= { dcbranchcurrent 8 }
+   
+loadcurrent9 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load Current 9 (UNITS 0.1Amps)"
+   ::= { dcbranchcurrent 9 }
+   
+loadcurrent10 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load Current 10 (UNITS 0.1Amps)"
+   ::= { dcbranchcurrent 10 }
+   
+loadcurrent11 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load Current 11 (UNITS 0.1Amps)"
+   ::= { dcbranchcurrent 11 }
+   
+loadcurrent12 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load Current 12 (UNITS 0.1Amps)"
+   ::= { dcbranchcurrent 12 }
+   
+loadcurrent13 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load Current 13 (UNITS 0.1Amps)"
+   ::= { dcbranchcurrent 13 }
+   
+loadcurrent14 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load Current 14 (UNITS 0.1Amps)"
+   ::= { dcbranchcurrent 14 }
+   
+loadcurrent15 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load Current 15 (UNITS 0.1Amps)"
+   ::= { dcbranchcurrent 15 }
+   
+loadcurrent16 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load Current 16 (UNITS 0.1Amps)"
+   ::= { dcbranchcurrent 16 }
+
+loadtotalkwh OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.01kwh"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load Total POWER (UNITS 0.01kwh)"
+   ::= { dcmonitorkwh 1 }
+   
+loadkwh1 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.01kwh"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load POWER 1 (UNITS 0.01kwh)"
+   ::= { dcmonitorkwh 2 }
+
+loadkwh2 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.01kwh"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load POWER 2 (UNITS 0.01kwh)"
+   ::= { dcmonitorkwh 3 }
+   
+loadkwh3 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.01kwh"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load POWER 3 (UNITS 0.01kwh)"
+   ::= { dcmonitorkwh 4 }
+   
+loadkwh4 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.01kwh"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load POWER 4 (UNITS 0.01kwh)"
+   ::= { dcmonitorkwh 5 }
+   
+loadkwh5 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.01kwh"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load POWER 5 (UNITS 0.01kwh)"
+   ::= { dcmonitorkwh 6 }
+   
+loadkwh6 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.01kwh"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load POWER 6 (UNITS 0.01kwh)"
+   ::= { dcmonitorkwh 7 }
+   
+loadkwh7 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.01kwh"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load POWER 7 (UNITS 0.01kwh)"
+   ::= { dcmonitorkwh 8 }
+   
+loadkwh8 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.01kwh"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load POWER 8 (UNITS 0.01kwh)"
+   ::= { dcmonitorkwh 9 }
+   
+loadkwh9 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.01kwh"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load POWER 9 (UNITS 0.01kwh)"
+   ::= { dcmonitorkwh 10 }
+   
+loadkwh10 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.01kwh"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load POWER 10 (UNITS 0.01kwh)"
+   ::= { dcmonitorkwh 11 }
+   
+loadkwh11 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.01kwh"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load POWER 11 (UNITS 0.01kwh)"
+   ::= { dcmonitorkwh 12 }
+   
+loadkwh12 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.01kwh"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load POWER 12 (UNITS 0.01kwh)"
+   ::= { dcmonitorkwh 13 }
+   
+loadkwh13 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.01kwh"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load POWER 13 (UNITS 0.01kwh)"
+   ::= { dcmonitorkwh 14 }
+   
+loadkwh14 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.01kwh"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load POWER 14 (UNITS 0.01kwh)"
+   ::= { dcmonitorkwh 15 }
+   
+loadkwh15 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.01kwh"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load POWER 15 (UNITS 0.01kwh)"
+   ::= { dcmonitorkwh 16 }
+   
+loadkwh16 OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.01kwh"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Load POWER 16 (UNITS 0.01kwh)"
+   ::= { dcmonitorkwh 17 }
+   
+   
+--batterygroup
+
+batt1amps OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Current (UNITS 0.1Amps)"
+   ::= { dcbatterygroup1 1 }
+   
+batt1temp OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1 DegC"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String Temperature (UNITS 0.1 DegC)"
+   ::= { dcbatterygroup1 2 }
+      
+batt1bloc1v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+			"Battery String 1 Bloc 1 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 3 }
+      
+batt1bloc2v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 2 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 4 }
+         
+batt1bloc3v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 3 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 5 }
+      
+batt1bloc4v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 4 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 6 }
+        
+batt1bloc5v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 5 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 7 }
+      
+batt1bloc6v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 6 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 8 }
+        
+batt1bloc7v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 7 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 9 }
+      
+batt1bloc8v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 8 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 10 }
+        
+batt1bloc9v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 9 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 11 }
+      
+batt1bloc10v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 10 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 12 }
+        
+batt1bloc11v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 11 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 13 }
+      
+batt1bloc12v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 12 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 14 }
+        
+batt1bloc13v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 13 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 15 }
+      
+batt1bloc14v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 14 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 16 }
+        
+batt1bloc15v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 15 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 17 }
+      
+batt1bloc16v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 16 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 18 }
+        
+batt1bloc17v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 17 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 19 }
+      
+batt1bloc18v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 18 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 20 }
+        
+batt1bloc19v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 19 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 21 }
+      
+batt1bloc20v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 20 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 22 }
+        
+batt1bloc21v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 21 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 23 }
+      
+batt1bloc22v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 22 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 24 }
+        
+batt1bloc23v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 23 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 25 }
+      
+batt1bloc24v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 1 Bloc 24 Voltage (UNITS mV)"
+   ::= { dcbatterygroup1 26 }
+        
+        
+batt2amps OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Amps"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+     "Battery String 2 Current (UNITS 0.1Amps)"
+   ::= { dcbatterygroup2 1 }
+   
+batt2temp OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1 DegC"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+       "Battery String Temperature (UNITS 0.1 DegC)"
+   ::= { dcbatterygroup2 2 }
+      
+batt2bloc1v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 1 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 3 }
+      
+batt2bloc2v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 2 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 4 }
+         
+batt2bloc3v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 3 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 5 }
+      
+batt2bloc4v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 4 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 6 }
+        
+batt2bloc5v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 5 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 7 }
+      
+batt2bloc6v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 6 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 8 }
+        
+batt2bloc7v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 7 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 9 }
+      
+batt2bloc8v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 8 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 10 }
+        
+batt2bloc9v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 9 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 11 }
+      
+batt2bloc10v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 10 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 12 }
+        
+batt2bloc11v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 11 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 13 }
+      
+batt2bloc12v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 12 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 14 }
+        
+batt2bloc13v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 13 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 15 }
+      
+batt2bloc14v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 14 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 16 }
+        
+batt2bloc15v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 15 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 17 }
+      
+batt2bloc16v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 16 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 18 }
+        
+batt2bloc17v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 17 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 19 }
+      
+batt2bloc18v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 18 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 20 }
+        
+batt2bloc19v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 19 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 21 }
+      
+batt2bloc20v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 20 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 22 }
+        
+batt2bloc21v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 21 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 23 }
+      
+batt2bloc22v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 22 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 24 }
+        
+batt2bloc23v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 23 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 25 }
+      
+batt2bloc24v OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Battery String 2 Bloc 24 Voltage (UNITS mV)"
+   ::= { dcbatterygroup2 26 }
+
+   
+rectifierTable OBJECT-TYPE
+    SYNTAX SEQUENCE OF RectifierEntry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+        "power modules table"
+    ::= { rectifiers 1 }
+
+rectifierEntry OBJECT-TYPE
+    SYNTAX RectifierEntry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+        ""
+    INDEX { rectifiernumber }
+     ::= { rectifierTable 1 }
+
+RectifierEntry ::=
+    SEQUENCE {
+	rectifiernumber
+		INTEGER,
+	rectifierid
+		DisplayString,
+    rectifiershutdown
+            INTEGER,
+    rectifieroutputvoltage
+            INTEGER,
+	  rectifieroutputcurrent
+						INTEGER,
+	  rectifieroutputpower
+            INTEGER,
+    rectifiertemperature
+            INTEGER,
+    rectifieralarmstatus
+            INTEGER
+	}
+
+rectifiernumber  OBJECT-TYPE
+    SYNTAX INTEGER (0.. 255)
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+        "Address of power module"
+    ::= { rectifierEntry 1 }
+
+rectifierid OBJECT-TYPE
+    SYNTAX DisplayString
+	UNITS ""
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+        "Power Module ID"
+    ::= { rectifierEntry 2 }
+
+rectifiershutdown OBJECT-TYPE
+    SYNTAX INTEGER { yes(1), no(0) }
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Power Module Shutdown Command"
+    ::= { rectifierEntry 3 }
+
+rectifieroutputvoltage OBJECT-TYPE
+    SYNTAX INTEGER
+		UNITS "Volt"
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+        "Power Module Output Voltage"
+    ::= { rectifierEntry 4 }
+
+rectifieroutputcurrent OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS "A"
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+        "Power Module Output Current"
+    ::= { rectifierEntry 5 }
+
+rectifieroutputpower OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS "W"
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+        "Power Module Output Power"
+    ::= { rectifierEntry 6 }
+
+rectifiertemperature OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS "DegC"
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+        "Power Module Temperature Measurment"
+    ::= { rectifierEntry 7 }
+
+rectifieralarmstatus OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS ""
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+        "Power Module Alarm status word"
+    ::= { rectifierEntry 8 }
+
+sprenwvbias OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "mV"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Renewables Voltage Setpoint Bias"
+   ::= { rectifiers 2 }	
+	
+-- control
+
+systemlanguage OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "System Language
+      0x00:Simplified Chinese
+      0x01:English
+      0x02:Traditional Chinese"
+   ::= { systemcontrol 1 }
+
+systembuzzer OBJECT-TYPE
+   SYNTAX INTEGER { yes(1), no(0) }
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "System Buzzer"
+   ::= { systemcontrol 2 }
+
+systemaddress OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "System Address"
+   ::= { systemcontrol 3 }
+
+screendirection OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "System Screen Direction
+      0x00:level
+      0x01:vertical"
+   ::= { systemcontrol 4 }
+
+backlighttimer OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "minutes"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "System Back Light Timer (UNITS minutes)"
+   ::= { systemcontrol 5 }
+
+toboostvoltage  OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "ToBoost Start Threshold Voltage (UNITS 0.1Volts)"
+   ::= { batterycontrol 1 }
+
+toboostcurlmtenable OBJECT-TYPE
+    SYNTAX INTEGER { yes(1), no(0) }
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Floating charge to turn average charge flow enable"
+    ::= { batterycontrol 2 }
+
+toboostcurrat  OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "%"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Floating charge to turn average charge flow (UNITS %)"
+   ::= { batterycontrol 3 }
+
+regularchargingenable OBJECT-TYPE
+    SYNTAX INTEGER { yes(1), no(0) }
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Regular Equalizing charging time enable"
+    ::= { batterycontrol 4 }
+
+regularchargingtimer OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "Hour"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Regular Equalizing charging time (UNITS Hour)"
+   ::= { batterycontrol 5 }
+
+floatvoltage OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Floating charge voltage (UNITS 0.1Volts)"
+   ::= { batterycontrol 6 }
+
+floatcurrentlimitrat OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "%"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Floating charge current limiting percentage (UNITS %)"
+   ::= { batterycontrol 7 }
+   
+boostenable OBJECT-TYPE
+    SYNTAX INTEGER { yes(1), no(0) }
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Boost charge enable"
+    ::= { batterycontrol 8 }
+
+boostduration OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "Minutes"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Time limit of boost process (UNITS Minutes)"
+   ::= { batterycontrol 9 }
+
+boosttofloatcurrentrat OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "%"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Boost to turn floating charge flow (UNITS %)"
+   ::= { batterycontrol 10 }
+
+boostdelaytimer OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "Minutes"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Boost delay timer (UNITS Minutes)"
+   ::= { batterycontrol 11 }
+
+boostvoltage OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1 Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Boost voltage (UNITS 0.1Volts)"
+   ::= { batterycontrol 12 }
+
+boostcurlimitrat OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "%"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Boost current limiting percentage (UNITS %)"
+   ::= { batterycontrol 13 }
+
+boostlocktimer OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "Minutes"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Boost lock out timer (UNITS Minutes)"
+   ::= { batterycontrol 14 }
+
+batterytestenable OBJECT-TYPE
+    SYNTAX INTEGER { yes(1), no(0) }
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Initiate/start a battery test procedure"
+    ::= { batterycontrol 15 }
+
+batterytestprocesstimer OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "Minutes"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Battery test process deal timer (UNITS Minutes)"
+   ::= { batterycontrol 16 }
+
+batterytestlocktimer OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "Minutes"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Battery test process locking timer (UNITS Minutes)"
+   ::= { batterycontrol 17 }
+
+batterytestcycleenable OBJECT-TYPE
+   SYNTAX INTEGER { yes(1), no(0) }
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Battery test discharge cycle enable"
+   ::= { batterycontrol 18 }
+ 
+batterytestcycletimer OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "Days"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Battery test discharge cycle timer (UNITS Days)"
+   ::= { batterycontrol 19 }   
+   
+batterytestvoltage OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1 Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Battery test discharge voltage (UNITS 0.1Volts)"
+   ::= { batterycontrol 20 }     
+   
+batterytestlimitrat OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "%"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Battery test limiting percentage rat (UNITS %)"
+   ::= { batterycontrol 21 }
+
+batterycurrentlimitenable OBJECT-TYPE
+    SYNTAX INTEGER { yes(1), no(0) }
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Initiate/start a battery current limit procedure"
+    ::= { batterycontrol 22 }
+
+batterymendingenergyenable OBJECT-TYPE
+    SYNTAX INTEGER { yes(1), no(0) }
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Battery mending energy enable"
+    ::= { batterycontrol 23 }
+
+batterymendingenergytemperature OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1 DegC"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Battery mending energy temperature (UNITS 0.1DegC)"
+   ::= { batterycontrol 24 } 
+  
+batterymendingenergyrate OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "Mv/â„ƒ"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Battery mending energy rate (UNITS Mv/â„ƒ)"
+   ::= { batterycontrol 25 } 
+      
+systemavcenable OBJECT-TYPE
+    SYNTAX INTEGER { yes(1), no(0) }
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "System avc enable"
+    ::= { batterycontrol 26 }
+    
+boosttrigger OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS " "
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Boost charge trigger
+      0x01:trap
+      0x02:stop"
+   ::= { batterycontrol 27 }
+   
+batterytesttriger OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS " "
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Battery Test Triger"
+   ::= { batterycontrol 28 }
+    
+rectifierfloatvoltagesetpoint OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS "0.1 Volts"
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "rectifier float voltage set point (UNITS 0.1Volts)"
+    ::= { rectifierscontrol 1 }
+
+rectifiercurrentlimitsetpoint OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS "0.1 Amps"
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "rectifier limit current set point (UNITS 0.1Amps)"
+    ::= { rectifierscontrol 2 }
+    
+rectifieraccurrentlimitsetpoint OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS "0.1 Amps"
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "rectifier limit AC current set point (UNITS 0.1Amps)"
+    ::= { rectifierscontrol 3 }
+    
+rectifiercount OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS ""
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "Count of rectifiers"
+   ::= { rectifierscontrol 4 }
+
+batterytemperaturelowalarmsetpoint OBJECT-TYPE
+   SYNTAX INTEGER
+	 UNITS "DegC"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+       "Battery Temperature Low Alarm Setpoint (UNITS 0.01DegC)"
+   ::= { temperaturealarmthresholds 1 }
+
+batterytemperaturehighalarmsetpoint OBJECT-TYPE
+   SYNTAX INTEGER
+	 UNITS "DegC"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+       "Battery Temperature High Alarm Setpoint (UNITS 0.01DegC)"
+   ::= { temperaturealarmthresholds 2 }
+
+ambienttemperaturelowalarmsetpoint OBJECT-TYPE
+   SYNTAX INTEGER
+	 UNITS "DegC"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+       "Ambient Temperature Low Alarm Setpoint (UNITS 0.01DegC)"
+   ::= { temperaturealarmthresholds 3 }
+
+ambienttemperaturehighalarmsetpoint OBJECT-TYPE
+   SYNTAX INTEGER
+	 UNITS "DegC"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+       "Ambient Temperature High Alarm Setpoint (UNITS 0.01DegC)"
+   ::= { temperaturealarmthresholds 4 }
+
+acvoltagehighalarmsetpoint OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS "V"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "AC Voltage High Alarm Setpoint (UNITS V)"
+   ::= { acalarmthresholds 1 }
+
+acvoltagelowalarmsetpoint OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS "mV"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "AC Voltage Low Alarm Setpoint (UNITS V)"
+   ::= { acalarmthresholds 2 }
+
+accurrenthighalarmsetpoint OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS "A"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "AC Current High Alarm Setpoint (UNITS A)"
+   ::= { acalarmthresholds 3 }
+
+acfrequencyhighalarmsetpoint OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS "Hz"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "AC Frequency High Alarm Setpoint (UNITS Hz)"
+   ::= { acalarmthresholds 4 }
+
+acfrequencylowalarmsetpoint OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS "Hz"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "AC Frequency Low Alarm Setpoint (UNITS Hz)"
+   ::= { acalarmthresholds 5 }
+
+systemmaxvoltage OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "System Max Voltage (UNITS 0.1Volts)"
+   ::= { voltagealarmthresholds 1 }
+
+systemminvoltage OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "System Min Voltage (UNITS 0.1Volts)"
+   ::= { voltagealarmthresholds 2 }
+
+systemhighfloatingvoltage OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "System High Floating Voltage (UNITS 0.1Volts)"
+   ::= { voltagealarmthresholds 3 }
+
+systemlowfloatingvoltage OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "System Low Floating Voltage (UNITS 0.1Volts)"
+   ::= { voltagealarmthresholds 4 }
+
+systemhighloadvoltage OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "System High Load Voltage (UNITS 0.1Volts)"
+   ::= { voltagealarmthresholds 5 }
+
+systemlowloadvoltage OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "0.1Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "System Low Load Voltage (UNITS 0.1Volts)"
+   ::= { voltagealarmthresholds 6 }
+
+systemoverloadrate OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "%"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "System Over Load Rate (UNITS %)"
+   ::= { voltagealarmthresholds 7 }
+
+lvd1controlpattern OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS " "
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 1 Control Pattern
+      0x14:auto
+      0x15:prohibit
+      0x16:manual connection
+      0x17:manual disconnection"
+   ::= { lvdalarmthresholds 1 }
+   
+lvd1disconnectsetpoint OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS "0.1 Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 1 Disconnect Setpoint (UNITS 0.1Volts)"
+   ::= { lvdalarmthresholds 2 }
+
+lvd1reconnectsetpoint OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS "0.1 Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 1 Reconnect Setpoint (UNITS 0.1Volts)"
+   ::= { lvdalarmthresholds 3 }
+
+lvd2controlpattern OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS " "
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 2 Control Pattern
+      0x14:auto
+      0x15:prohibit
+      0x16:manual connection
+      0x17:manual disconnection"
+   ::= { lvdalarmthresholds 4 }
+
+lvd2disconnectsetpoint OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS "0.1 Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 2 Disconnect Setpoint (UNITS 0.1Volts)"
+   ::= { lvdalarmthresholds 5 }
+
+lvd2reconnectsetpoint OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS "0.1 Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 2 Reconnect Setpoint (UNITS 0.1Volts)"
+   ::= { lvdalarmthresholds 6 }
+
+lvd3controlpattern OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS " "
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 3 Control Pattern
+      0x14:auto
+      0x15:prohibit
+      0x16:manual connection
+      0x17:manual disconnection"
+   ::= { lvdalarmthresholds 7 }
+   
+lvd3disconnectsetpoint OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS "0.1 Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 3 Disconnect Setpoint (UNITS 0.1Volts)"
+   ::= { lvdalarmthresholds 8 }
+
+lvd3reconnectsetpoint OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS "0.1 Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 3 Reconnect Setpoint (UNITS 0.1Volts)"
+   ::= { lvdalarmthresholds 9 }   
+   
+lvd4controlpattern OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS " "
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 4 Control Pattern
+      0x14:auto
+      0x15:prohibit
+      0x16:manual connection
+      0x17:manual disconnection"
+   ::= { lvdalarmthresholds 10 }
+   
+lvd4disconnectsetpoint OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS "0.1 Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 4 Disconnect Setpoint (UNITS 0.1Volts)"
+   ::= { lvdalarmthresholds 11 }
+
+lvd4reconnectsetpoint OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS "0.1 Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 4 Reconnect Setpoint (UNITS 0.1Volts)"
+   ::= { lvdalarmthresholds 12 }   
+
+lvd5controlpattern OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS " "
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 5 Control Pattern
+      0x14:auto
+      0x15:prohibit
+      0x16:manual connection
+      0x17:manual disconnection"
+   ::= { lvdalarmthresholds 13 }
+   
+lvd5disconnectsetpoint OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS "0.1 Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 5 Disconnect Setpoint (UNITS 0.1Volts)"
+   ::= { lvdalarmthresholds 14 }
+
+lvd5reconnectsetpoint OBJECT-TYPE
+   SYNTAX INTEGER
+   UNITS "0.1 Volts"
+   MAX-ACCESS read-write
+   STATUS current
+   DESCRIPTION
+      "LVD 5 Reconnect Setpoint (UNITS 0.1Volts)"
+   ::= { lvdalarmthresholds 15 }
+
+fan1workenable OBJECT-TYPE
+    SYNTAX INTEGER { yes(1), no(0) }
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Fan1 work enable"
+    ::= { fanalarmthresholds 1 }
+    
+fan1lowtempautoenable OBJECT-TYPE
+    SYNTAX INTEGER { yes(1), no(0) }
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Fan1 low temperature automatic shutdown "
+    ::= { fanalarmthresholds 2 }
+
+fan1lowtempclosesetpoint OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS "0.1 DegC"
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Fan low temperature automatic chose point (UNITS 0.1DegC)"
+    ::= { fanalarmthresholds 3 }
+
+fan1hightempopensetpoint OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS "0.1 DegC"
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Fan high temperature automatic open point (UNITS 0.1DegC)"
+    ::= { fanalarmthresholds 4 }
+
+fan1returndifferencesetpoint OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS "0.1 DegC"
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Fan start stop return difference value (UNITS 0.1DegC)"
+    ::= { fanalarmthresholds 5 }
+
+fan1minspeedsetpoint OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS "%"
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Fan min speed set point"
+    ::= { fanalarmthresholds 6 }
+    
+fan2workenable OBJECT-TYPE
+    SYNTAX INTEGER { yes(1), no(0) }
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Fan work enable"
+    ::= { fanalarmthresholds 7 }
+    
+fan2lowtempautoenable OBJECT-TYPE
+    SYNTAX INTEGER { yes(1), no(0) }
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Fan low temperature automatic shutdown "
+    ::= { fanalarmthresholds 8 }
+
+fan2lowtempclosesetpoint OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS "0.1 DegC"
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Fan low temperature automatic chose point (UNITS 0.1DegC)"
+    ::= { fanalarmthresholds 9 }
+
+fan2hightempopensetpoint OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS "0.1 DegC"
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Fan high temperature automatic open point (UNITS 0.1DegC)"
+    ::= { fanalarmthresholds 10 }
+
+fan2returndifferencesetpoint OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS "0.1 DegC"
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Fan start stop return difference value (UNITS 0.1DegC)"
+    ::= { fanalarmthresholds 11 }
+
+fan2minspeedsetpoint OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS "%"
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "Fan min speed set point"
+    ::= { fanalarmthresholds 12 }
+    
+lbrsenable OBJECT-TYPE
+    SYNTAX INTEGER { yes(1), no(0) }
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "LBRS enable"
+    ::= { dormancyparameter 1 }
+
+lbrsmodulenummode OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS " "
+	  MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "LBRS module number mode
+        0x00:N+0
+        0x01:N+1"
+    ::= { dormancyparameter 2 }
+
+lbrspowerupperlimit OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS "%"
+	  MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "LBRS power upper limit"
+    ::= { dormancyparameter 3 }
+
+lbrspowerlowerlimit OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS "%"
+	  MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "LBRS power lower limit"
+    ::= { dormancyparameter 4 }
+
+lbrsefficientworkpoint OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS "%"
+	  MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "LBRS efficient work point"
+    ::= { dormancyparameter 5 }
+
+lbrsroundtimer OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS "minute"
+	  MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "LBRS Round time (UNITS minute)"
+    ::= { dormancyparameter 6 }    
+    
+lbrshandovertimer OBJECT-TYPE
+    SYNTAX INTEGER
+	  UNITS "sencond"
+	  MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+        "LBRS handover timer (UNITS sencond)"
+    ::= { dormancyparameter 7 } 
+        
+lbrsstate OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS " "
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "LBRS State
+      0x00:stop
+      0x01:run
+      0x02:handover
+      0x03:suspend
+      0x04:battery test"
+   ::= { extrastate 1 }
+
+lvd1runstate OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS " "
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "LVD1 Run State
+      0x00:auto connect normal
+      0x01:auto disconnect normal
+      0x02:auto disconnect ready
+      0x03:auto connect ready
+      0x04:auto connect early warning
+      0x05:auto connect restore
+      0x06:auto connect warning
+      0x07:auto disconnect early warning
+      0x08:auto disconnect restore
+      0x09:auto disconnect warning
+      0x0A:manual disconnect normal
+      0x0B:manual disconnect early warning
+      0x0C:manual disconnect restore
+      0x0D:manual disconnect warning
+      0x0E:manual connect normal
+      0x0F:manual connect early warning
+      0x10:manual connect restore
+      0x11:manual connect warning
+      0x12:prohibit"
+   ::= { extrastate 2 }
+
+lvd2runstate OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS " "
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "LVD2 Run State
+      0x00:auto connect normal
+      0x01:auto disconnect normal
+      0x02:auto disconnect ready
+      0x03:auto connect ready
+      0x04:auto connect early warning
+      0x05:auto connect restore
+      0x06:auto connect warning
+      0x07:auto disconnect early warning
+      0x08:auto disconnect restore
+      0x09:auto disconnect warning
+      0x0A:manual disconnect normal
+      0x0B:manual disconnect early warning
+      0x0C:manual disconnect restore
+      0x0D:manual disconnect warning
+      0x0E:manual connect normal
+      0x0F:manual connect early warning
+      0x10:manual connect restore
+      0x11:manual connect warning
+      0x12:prohibit"
+   ::= { extrastate 3 }
+   
+fan1runstate OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS " "
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Fan1 Run State
+      0x00:normal
+      0x01:alarm"
+   ::= { extrastate 4 }
+     
+fan1runspeed OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "%"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Fan1 Run Speed"
+   ::= { extrastate 5 }
+     
+   
+fan2runstate OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS " "
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Fan2 Run State
+      0x00:normal
+      0x01:alarm"
+   ::= { extrastate 6 }
+     
+fan2runspeed OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "%"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Fan2 Run Speed"
+   ::= { extrastate 7 }
+        
+fan3runstate OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS " "
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Fan3 Run State
+      0x00:normal
+      0x01:alarm"
+   ::= { extrastate 8 }
+     
+fan3runspeed OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "%"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Fan3 Run Speed"
+   ::= { extrastate 9 }
+        
+fan4runstate OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS " "
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Fan4 Run State
+      0x00:normal
+      0x01:alarm"
+   ::= { extrastate 10 }
+     
+fan4runspeed OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "%"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Fan4 Run Speed"
+   ::= { extrastate 11 }
+     
+outputstate OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS "Amps"
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "Output State:
+       "
+   ::= { extrastate 12 }
+
+lvd3runstate OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS " "
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "LVD3 Run State
+      0x00:auto connect normal
+      0x01:auto disconnect normal
+      0x02:auto disconnect ready
+      0x03:auto connect ready
+      0x04:auto connect early warning
+      0x05:auto connect restore
+      0x06:auto connect warning
+      0x07:auto disconnect early warning
+      0x08:auto disconnect restore
+      0x09:auto disconnect warning
+      0x0A:manual disconnect normal
+      0x0B:manual disconnect early warning
+      0x0C:manual disconnect restore
+      0x0D:manual disconnect warning
+      0x0E:manual connect normal
+      0x0F:manual connect early warning
+      0x10:manual connect restore
+      0x11:manual connect warning
+      0x12:prohibit"
+   ::= { extrastate 13 }
+
+lvd4runstate OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS " "
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "LVD4 Run State
+      0x00:auto connect normal
+      0x01:auto disconnect normal
+      0x02:auto disconnect ready
+      0x03:auto connect ready
+      0x04:auto connect early warning
+      0x05:auto connect restore
+      0x06:auto connect warning
+      0x07:auto disconnect early warning
+      0x08:auto disconnect restore
+      0x09:auto disconnect warning
+      0x0A:manual disconnect normal
+      0x0B:manual disconnect early warning
+      0x0C:manual disconnect restore
+      0x0D:manual disconnect warning
+      0x0E:manual connect normal
+      0x0F:manual connect early warning
+      0x10:manual connect restore
+      0x11:manual connect warning
+      0x12:prohibit"
+   ::= { extrastate 14 } 
+
+lvd5runstate OBJECT-TYPE
+   SYNTAX Integer32
+   UNITS " "
+   MAX-ACCESS read-only
+   STATUS obsolete
+   DESCRIPTION
+      "LVD5 Run State
+      0x00:auto connect normal
+      0x01:auto disconnect normal
+      0x02:auto disconnect ready
+      0x03:auto connect ready
+      0x04:auto connect early warning
+      0x05:auto connect restore
+      0x06:auto connect warning
+      0x07:auto disconnect early warning
+      0x08:auto disconnect restore
+      0x09:auto disconnect warning
+      0x0A:manual disconnect normal
+      0x0B:manual disconnect early warning
+      0x0C:manual disconnect restore
+      0x0D:manual disconnect warning
+      0x0E:manual connect normal
+      0x0F:manual connect early warning
+      0x10:manual connect restore
+      0x11:manual connect warning
+      0x12:prohibit"
+   ::= { extrastate 15 }  
+   
+-- ALARMS SNMPv2 and SNMPv3 Trap definitions
+
+
+acmain1failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1 Fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 failure Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 1
+   
+acmain1failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1 Fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 failure NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 2
+   
+acmain2failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2 Fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 failure Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 3
+   
+acmain2failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2 Fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 failure NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 4
+   
+acphaserecmissingon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Phase Rec Missing Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Phase loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 5
+   
+acphaserecmissingoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Phase Rec Missing NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Phase loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 6
+   
+acmain1phaseahighon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase A High Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 A phase overvoltage Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 7
+      
+acmain1phaseahighoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase A High NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 A phase overvoltage NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 8
+   
+acmain1phasebhighon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase B High Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 B phase overvoltage Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 9
+      
+acmain1phasebhighoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase B High NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 B phase overvoltage NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 10
+   
+acmain1phasechighon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase C High Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 C phase overvoltage Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 11
+   
+acmain1phasechighoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase C High NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 C phase overvoltage NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 12
+
+acmain1phasealowon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase A Low Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 A phase undervoltage Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 13
+
+acmain1phasealowoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase A Low NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 A phase undervoltage NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 14
+   
+acmain1phaseblowon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase B Low Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 B phase undervoltage Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 15
+    
+acmain1phaseblowoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase B Low NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 B phase undervoltage NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 16
+   
+acmain1phaseclowon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase C Low Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 C phase undervoltage Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 17
+      
+acmain1phaseclowoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase C Low NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 C phase undervoltage NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 18
+   
+acmain1phaseamisson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase A Miss Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 A phase loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 19
+      
+acmain1phaseamissoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase A Miss NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 A phase loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 20
+   
+acmain1phasebmisson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase B Miss Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 B phase loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 21
+      
+acmain1phasebmissoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase B Miss NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 B phase loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 22
+   
+acmain1phasecmisson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase C Miss Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 C phase loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 23
+         
+acmain1phasecmissoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase C Miss NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 C phase loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 24
+      
+acmain1phaseaovercurrenton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase A OverCurrent Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 A phase overcurrent Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 25
+         
+acmain1phaseaovercurrentoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase A OverCurrent NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 A phase overcurrent NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 26
+   
+acmain1phasebovercurrenton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase B OverCurrent Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 B phase overcurrent Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 27
+      
+acmain1phasebovercurrentoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase B OverCurrent NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 B phase overcurrent NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 28
+   
+acmain1phasecovercurrenton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase C OverCurrent Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 C phase overcurrent Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 29
+     
+acmain1phasecovercurrentoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Phase C OverCurrent NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 C phase overcurrent NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 30
+   
+  
+acmain1frequencyhighon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Frequency High Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 A phase frequency high Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 31
+      
+acmain1frequencyhighoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Frequency High NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 A phase frequency high NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 32
+      
+acmain1frequencylowon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Frequency Low Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 A phase frequency low Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 33
+      
+acmain1frequencylowoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1#Frequency Low NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 1 A phase frequency low NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 34
+
+acmains2phaseahighon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2#Phase A High Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 A phase overvoltage Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 35
+   
+acmains2phaseahighoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2#Phase A High NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 A phase overvoltage NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 36
+   
+acmains2phasebhighonoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2#Phase B High Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 B phase overvoltage Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 37
+      
+acmains2phasebhighoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2#Phase B High NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 B phase overvoltage NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 38
+   
+acmains2phasechighon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2#Phase C High Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 C phase overvoltage Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 39
+   
+acmains2phasechighoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2#Phase C High NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 C phase overvoltage NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 40
+
+acmains2phasealowon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2#Phase A Low Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 A phase undervoltage Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 41
+   
+acmains2phasealowoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2#Phase A Low NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 A phase undervoltage NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 42
+   
+acmains2phaseblowon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2#Phase B Low Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 B phase undervoltage Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 43
+      
+acmains2phaseblowoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2#Phase B Low NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 B phase undervoltage NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 44
+   
+acmains2phaseclowon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2#Phase C Low Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 C phase undervoltage Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 45
+      
+acmains2phaseclowoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2#Phase C Low NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 C phase undervoltage NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 46
+   
+acmains2phaseamisson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2#Phase A Miss Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 A phase loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 47
+      
+acmains2phaseamissoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2#Phase A Miss NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 A phase loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 48
+   
+acmains2phasebmisson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2#Phase B Miss Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 B phase loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 49
+      
+acmains2phasebmissoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2#Phase B Miss NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 B phase loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 50
+   
+acmains2phasecmisson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2#Phase C Miss Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 C phase loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 51
+         
+acmains2phasecmissoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2#Phase C Miss NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 C phase loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 52
+      
+acmains2phaseaovercurrenton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2 Phase A OverCurrent Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 A phase overcurrent Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 53
+         
+acmains2phaseaovercurrentoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2 Phase A OverCurrent NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 A phase overcurrent NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 54
+   
+acmains2phasebovercurrenton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2 Phase B OverCurrent Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 B phase overcurrent Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 55
+      
+acmains2phasebovercurrentoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2 Phase B OverCurrent NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 B phase overcurrent NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 56
+   
+acmains2phasecovercurrenton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2 Phase C OverCurrent Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 C phase overcurrent Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 57
+      
+acmains2phasecovercurrentoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2 Phase C OverCurrent NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 C phase overcurrent NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 58
+   
+acmains2frequencyhighon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2 Frequency High Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 A phase frequency high Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 59
+     
+acmains2frequencyhighoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2 Frequency High NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 A phase frequency high NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 60
+  
+acmains2frequencylowon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2 Frequency Low Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 A phase frequency low Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 61
+     
+acmains2frequencylowoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2 Frequency Low NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC input 2 A phase frequency low NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 62
+   
+busvoltage1lowon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bus Voltage 1 Low Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Bus 1 voltage low Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 63
+      
+busvoltage1lowoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bus Voltage 1 Low NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Bus 1 voltage low NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 64
+   
+busvoltage2lowon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bus Voltage 2 Low Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Bus 2 voltage low Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 65   
+   
+busvoltage2lowoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bus Voltage 2 Low NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Bus 2 voltage low NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 66
+  
+busvoltage1highon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bus Voltage 1 High Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Bus 1 voltage high Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 67
+    
+busvoltage1highoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bus Voltage 1 High NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Bus 1 voltage high NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 68
+   
+busvoltage2highon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bus Voltage 2 High Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Bus 2 voltage high Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 69
+   
+busvoltage2highoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bus Voltage 2 High NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Bus 2 voltage high NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 70
+
+systemoverloadon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: System load current is too high Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "System overload Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 71
+   
+systemoverloadoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: System load current is too high NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "System overload NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 72
+   
+singlerectifierfaulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Single rectifier is warning Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Single rectifier fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 73
+      
+singlerectifierfaultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Single rectifier is warning NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Single rectifier fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 74
+   
+multiplerectifiersfaulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Multiple rectifiers are warning Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Multiple rectifiers fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 75
+      
+multiplerectifiersfaultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Multiple rectifiers are warning NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Multiple rectifiers fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 76
+   
+singlerectifierlosson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Single rectifier has been lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Single rectifier loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 77
+         
+singlerectifierlossoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Single rectifier has been lost NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Single rectifier loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 78
+      
+multiplerectifierslosson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Multiple rectifiers have been lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Multiple rectifiers loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 79
+         
+multiplerectifierslossoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Multiple rectifiers have been lost NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Multiple rectifiers loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 80
+   
+rectifiersnoloadon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Rectifiers are not loaded Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Rectifiers no load Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 81
+      
+rectifiersnoloadoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Rectifiers are not loaded NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Rectifiers no load NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 82
+   
+rectifierslimitingon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Rectifiers current are limiting Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Rectifiers current limiting Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 83
+      
+rectifierslimitingoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Rectifiers current are limiting NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Rectifiers current limiting NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 84
+   
+rectifiersovertempon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Rectifiers are over temperature Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Rectifiers over temperature Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 85
+   
+rectifiersovertempoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Rectifiers are over temperature NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Rectifiers over temperature NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 86
+
+rectifiersshutdownon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Rectifiers are all shutdown Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Rectifiers shutdown Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 87
+   
+rectifiersshutdownoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Rectifiers are all shutdown NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Rectifiers shutdown NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 88
+
+ rectifierfanfailon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Rectifier Fan Fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Rectifier fan failure Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 89
+      
+rectifierfanfailoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Rectifier Fan Fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Rectifier fan failure NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 90 
+   
+batterytestfailon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery test is failed Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery test failure Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 91
+         
+batterytestfailoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery test is failed NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery test failure NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 92
+      
+batteryovercurrenton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery is over current Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery overcurrent Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 93
+               
+batteryovercurrentoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery is over current NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery overcurrent NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 94
+         
+batterydischargingon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery is discharging Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery discharging Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 95
+               
+batterydischargingoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery is discharging NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery discharging NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 96
+      
+siglecellvolthighon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Sigle cell voltage is too high Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Single cell voltage high Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 97
+         
+siglecellvolthighoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Sigle cell voltage is too high NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Single cell voltage high NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 98
+   
+siglecellvoltlowon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Sigle cell voltage is too low Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Single cell voltage low Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 99
+      
+siglecellvoltlowoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Sigle cell voltage is too low NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Single cell voltage low NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 100
+   
+batteryasymmetryon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery Asymmetry Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery Asymmetry Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 101  
+      
+batteryasymmetryoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery Asymmetry NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery Asymmetry NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 102   
+   
+lvd1disconnecton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 1 is disconnect Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 1 is disconnected Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 103
+            
+lvd1disconnectoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 1 is disconnect NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 1 is disconnected NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 104
+         
+lvd2disconnecton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 2 is disconnect Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 2 is disconnected Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 105
+            
+lvd2disconnectoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 2 is disconnect NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 2 is disconnected NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 106
+   
+lvd1failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 1 is fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 1 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 107
+            
+lvd1failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 1 is fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 1 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 108
+         
+lvd2failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 2 is fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 2 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 109   
+                  
+lvd2failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 2 is fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 2 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 110   
+         
+sensorfailon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Sensor is fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Sensor failure Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 111
+                       
+sensorfailoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Sensor is fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Sensor failure NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 112
+               
+busvoltagesensorfailon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bus voltage sensing is fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Bus voltage sensor failure Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 113
+                      
+busvoltagesensorfailoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bus voltage sensing is fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Bus voltage sensor failure NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 114
+                  
+currentsensorfailon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Current sensing is fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Current sensor failure Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 115  
+                     
+currentsensorfailoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Current sensing is fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Current sensor failure NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 116  
+   
+temperaturesensor1failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Temperature sensing1 is fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Temperature sensor 1 failure Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 117
+      
+temperaturesensor1failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Temperature sensing1 is fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Temperature sensor 1 failure NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 118
+   
+temperaturesensor2failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Temperature sensing2 is fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Temperature sensor 2 failure Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 119
+         
+temperaturesensor2failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Temperature sensing2 is fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Temperature sensor 2 failure NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 120
+      
+batterytemperaturelowon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Temperature of battery is too low Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery temperature low Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 121
+         
+batterytemperaturelowoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Temperature of battery is too low NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery temperature low NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 122
+   
+batterytemperaturehighon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Temperature of battery is too high Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery temperature high Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 123
+      
+batterytemperaturehighoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Temperature of battery is too high NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery temperature high NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 124
+   
+ambienttemperaturelowon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Temperature of ambient is too low Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Ambient temperature low Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 125  
+      
+ambienttemperaturelowoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Temperature of ambient is too low NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Ambient temperature low NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 126  
+   
+ambienttemperaturehighon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Temperature of ambient is too high Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Ambient temperature high Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 127
+         
+ambienttemperaturehighoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Temperature of ambient is too high NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Ambient temperature high NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 128
+      
+boostchargeon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery is boost charge Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery equalizing charge Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 129
+            
+boostchargeoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery is boost charge NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery equalizing charge NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 130
+      
+batteryteston TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery is testing Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery test Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 131
+            
+batterytestoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery is testing NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery test NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 132
+      
+batterylimitingon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery current is limiting Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery current limiting Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 133
+         
+batterylimitingoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery current is limiting NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery current limiting NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 134
+   
+batteryfuse1failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery fuse 1 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery fuse 1 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 135
+    
+batteryfuse1failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery fuse 1 fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery fuse 1 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 136
+ 
+batteryfuse2failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery fuse 2 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery fuse 2 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 137
+  
+batteryfuse2failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery fuse 2 fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery fuse 2 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 138
+ 
+batteryfuse3failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery fuse 3 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery fuse 3 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 139
+  
+batteryfuse3failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery fuse 3 fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery fuse 3 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 140
+ 
+batteryfuse4failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery fuse 4 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery fuse 4 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 141
+  
+batteryfuse4failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery fuse 4 fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery fuse 4 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 142
+ 
+batteryfuse5failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery fuse 5 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery fuse 5 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 143
+       
+batteryfuse5failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery fuse 5 fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery fuse 5 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 144
+      
+batteryfuse6failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery fuse 6 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery fuse 6 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 145
+       
+batteryfuse6failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery fuse 6 fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery fuse 6 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 146
+ 
+batteryfuse7failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery fuse 7 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery fuse 7 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 147
+  
+batteryfuse7failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery fuse 7 fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery fuse 7 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 148
+ 
+batteryfuse8failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery fuse 8 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery fuse 8 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 149
+ 
+batteryfuse8failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Battery fuse 8 fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery fuse 8 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 150
+ 
+loadfuse1failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Load fuse A fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Load fuse-VE fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 151
+  
+loadfuse1failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Load fuse A fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Load fuse-VE fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 152
+ 
+loadfuse2failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Load fuse B fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Load fuse+VE fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 153      
+       
+loadfuse2failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Load fuse B fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Load fuse+VE fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 154      
+      
+mov1failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Mov 1 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "MOV1 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 155
+      
+mov1failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Mov 1 fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "MOV1 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 156
+
+mov2failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Mov 2 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "MOV2 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 157            
+ 
+mov2failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Mov 2 fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "MOV2 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 158            
+ 
+adcfailon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Adc fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "ACD fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 159
+ 
+adcfailoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Adc fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "ACD fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 160
+
+customacfailon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Custom AC fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "User-defined AC fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 161
+   
+customacfailoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Custom AC fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "User-defined AC fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 162
+   
+acmain1mcbtripon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1 MCB Trip Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC MCB 1 is disconnected Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 163
+     
+acmain1mcbtripoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 1 MCB Trip NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC MCB 1 is disconnected NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 164
+      
+acmain2mcbtripon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2 MCB Trip Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC MCB 2 is disconnected Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 165      
+        
+acmain2mcbtripoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: AC Mains 2 MCB Trip NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC MCB 2 is disconnected NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 166      
+          
+digital1inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 1 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 1 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 167
+              
+digital1inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 1 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 1 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 168
+     
+digital2inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 2 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 2 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 169
+         
+digital2inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 2 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 2 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 170
+    
+digital3inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 3 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 3 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 171
+        
+digital3inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 3 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 3 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 172
+    
+digital4inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 4 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 4 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 173
+       
+digital4inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 4 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 4 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 174
+    
+digital5inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 5 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 5 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 175
+        
+digital5inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 5 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 5 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 176
+    
+digital6inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 6 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 6 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 177
+        
+digital6inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 6 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 6 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 178
+    
+digital7inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 7 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 7 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 179
+       
+digital7inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 7 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 7 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 180
+    
+digital8inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 8 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 8 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 181
+        
+digital8inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 8 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 8 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 182
+    
+digital9inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 9 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 9 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 183
+        
+digital9inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 9 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 9 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 184
+    
+digital10inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 10 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 10 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 185
+        
+digital10inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 10 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 10 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 186
+    
+digital11inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 11 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 11 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 187
+        
+digital11inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 11 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 11 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 188
+    
+digital12inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 12 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 12 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 189
+        
+digital12inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 12 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 12 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 190
+    
+digital13inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 13 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 13 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 191
+    
+digital13inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 13 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 13 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 192
+    
+digital14inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 14 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 14 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 193
+     
+digital14inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 14 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 14 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 194
+    
+digital15inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 15 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 15 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 195
+        
+digital15inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 15 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 15 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 196
+    
+digital16inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 16 statet Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 16 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 197
+        
+digital16inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 16 statet NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 16 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 198
+    
+digital17inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 17 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 17 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 199
+        
+digital17inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 17 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 17 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 200
+    
+digital18inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 18 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 18 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 201
+      
+digital18inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 18 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 18 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 202
+    
+digital19inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 19 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 19 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 203
+     
+digital19inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 19 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 19 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 204
+    
+digital20inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 20 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 20 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 205
+     
+digital20inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 20 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 20 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 206
+    
+digital21inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 21 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 21 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 207
+     
+digital21inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 21 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 21 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 208
+    
+digital22inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 22 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 22 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 209
+        
+digital22inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 22 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 22 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 210
+    
+digital23inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 23 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 23 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 211
+        
+digital23inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 23 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 23 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 212
+    
+digital24inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 24 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 24 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 213
+      
+digital24inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 24 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 24 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 214
+    
+digital25inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 25 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 25 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 215
+        
+digital25inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 25 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 25 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 216
+    
+digital26inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 26 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 26 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 217
+        
+digital26inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 26 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 26 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 218
+    
+digital27inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 27 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 27 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 219
+        
+digital27inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 27 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 27 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 220
+    
+digital28inputon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 28 state Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 28 Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 221
+    
+digital28inputoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Digital input 28 state NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Digital input 28 NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 222
+
+fan1failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Fan 1 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Fan 1 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 223
+
+fan1failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Fan 1 fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Fan 1 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 224
+
+fan2failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Fan 2 fail Active"
+   --#TYPE "smu01 Trap 1 Active"
+   --#SUMMARY "Fan 2 fault"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 225
+
+fan2failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Fan 2 fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Fan 2 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 226
+
+fan3failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Fan 3 fail Active" 
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Fan 3 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 227
+
+fan3failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Fan 3 fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Fan 3 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 228
+
+fan4failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Fan 4 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Fan 4 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 229
+  
+fan4failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Fan 4 fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Fan 4 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 230
+  
+batsampling1communicatelosson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 1 communicate is lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 1 communication loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 231
+  
+batsampling1communicatelossoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 1 communicate is lost NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 1 communication loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 232
+
+batsampling2communicatelosson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 2 communicate is lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 2 communication loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 233   
+      
+batsampling2communicatelossoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 2 communicate is lost NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 2 communication loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 234   
+      
+batsampling3communicatelosson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 3 communicate is lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 3 communication loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 235
+      
+batsampling3communicatelossoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 3 communicate is lost NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 3 communication loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 236
+
+batsampling4communicatelosson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 4 communicate is lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 4 communication loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 237   
+   
+batsampling4communicatelossoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 4 communicate is lost NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 4 communication loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 238   
+   
+batsampling5communicatelosson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 5 communicate is lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 5 communication loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 239
+   
+batsampling5communicatelossoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 5 communicate is lost NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 5 communication loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 240
+
+batsampling6communicatelosson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 6 communicate is lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 6 communication loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 241
+      
+batsampling6communicatelossoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 6 communicate is lost NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 6 communication loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 242
+      
+batsampling7communicatelosson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 7 communicate is lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 7 communication loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 243
+      
+batsampling7communicatelossoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 7 communicate is lost NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 7 communication loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 244
+
+batsampling8communicatelosson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 8 communicate is lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 8 communication loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 245   
+  
+batsampling8communicatelossoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 8 communicate is lost NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 8 communication loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 246   
+   
+batsampling1faulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 1 is fault Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 1 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 247
+   
+batsampling1faultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 1 is fault NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 1 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 248
+
+batsampling2faulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 2 is fault Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 2 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 249
+ 
+batsampling2faultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 2 is fault NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 2 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 250
+   
+batsampling3faulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 3 is fault Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 3 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 251
+   
+batsampling3faultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 3 is fault NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 3 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 252
+
+batsampling4faulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 4 is fault Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 4 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 253
+
+batsampling4faultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 4 is fault NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 4 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 254
+
+batsampling5faulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 5 is fault Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 5 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 255
+
+batsampling5faultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 5 is fault NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 5 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 256
+
+batsampling6faulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 6 is fault Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 6 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 257
+   
+batsampling6faultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 6 is fault NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 6 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 258
+   
+batsampling7faulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 7 is fault Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 7 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 259
+   
+batsampling7faultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 7 is fault NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 7 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 260
+
+batsampling8faulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 8 is fault Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 8 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 261
+    
+batsampling8faultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Bat sampling 8 is fault NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Battery sampling unit 8 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 262
+    
+acsampling1communicatelosson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Ac sampling 1 communicate is lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC sampling unit 1 communication loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 263
+    
+acsampling1communicatelossoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Ac sampling 1 communicate is lost NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC sampling unit 1 communication loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 264
+
+acsampling2communicatelosson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Ac sampling 2 communicate is lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC sampling unit 2 communication loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 265
+   
+acsampling2communicatelossoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Ac sampling 2 communicate is lost NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC sampling unit 2 communication loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 265
+    
+acsampling1faulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Ac sampling 1 is fault Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC sampling unit 1 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 267
+    
+acsampling1faultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Ac sampling 1 is fault NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC sampling unit 1 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 268
+
+acsampling2faulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Ac sampling 2 is fault Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC sampling unit 2 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 269
+   
+acsampling2faultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Ac sampling 2 is fault NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "AC sampling unit 2 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 270
+   
+dcsampling1communicatelosson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 1 communicate is lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 1 communication loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 271
+   
+dcsampling1communicatelossoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 1 communicate is lost NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 1 communication loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 272
+
+dcsampling2communicatelosson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 2 communicate is lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 2 communication loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 273
+    
+dcsampling2communicatelossoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 2 communicate is lost NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 2 communication loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 274
+ 
+ dcsampling3communicatelosson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 3 communicate is lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 3 communication loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 275
+    
+dcsampling3communicatelossoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 3 communicate is lost NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 3 communication loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 276
+ 
+ dcsampling4communicatelosson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 4 communicate is lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 4 communication loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 277
+    
+dcsampling4communicatelossoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 4 communicate is lost NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 4 communication loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 278
+ 
+ dcsampling5communicatelosson TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 5 communicate is lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 5 communication loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 279
+    
+dcsampling5communicatelossoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 5 communicate is lost NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 5 communication loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 280
+    
+dcsampling1faulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 1 is fault Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 1 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 281
+    
+dcsampling1faultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 1 is fault NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 1 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 282
+
+dcsampling2faulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 2 is fault Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 2 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 283
+
+dcsampling2faultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 2 is fault NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 2 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 284
+
+dcsampling3faulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 3 is fault Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 3 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 285
+
+dcsampling3faultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 3 is fault NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 3 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 286
+
+dcsampling4faulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 4 is fault Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 4 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 287
+
+dcsampling4faultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 4 is fault NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 4 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 288
+
+dcsampling5faulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 5 is fault Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 5 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 289
+
+dcsampling5faultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Dc sampling 5 is fault NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "DC sampling unit 5 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 290
+
+ioextensionunit1loston TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: IO Extension Unit 1 Lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "IO extension unit 1 loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 291
+   
+ioextensionunit1lostoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: IO Extension Unit 1 Lost NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "IO extension unit 1 loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 292
+   
+ioextensionunit2loston TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: IO Extension Unit 2 Lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "IO extension unit 2 loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 293
+         
+ioextensionunit2lostoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: IO Extension Unit 2 Lost NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "IO extension unit 2 loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 294
+
+ioextensionunit1faulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: IO Extension Unit 1 fault Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "IO extension unit 1 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 295
+   
+ioextensionunit1faultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: IO Extension Unit 1 fault NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "IO extension unit 1 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 296
+   
+ioextensionunit2faulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: IO Extension Unit 2 fault Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "IO extension unit 2 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 297
+         
+ioextensionunit2faultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: IO Extension Unit 2 fault NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "IO extension unit 2 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 298
+      
+generator1starton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Generator 1 Start Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Generator 1 Start Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 299
+
+generator1startoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Generator 1 Start NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Generator 1 Start NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 300
+
+generator2starton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Generator 2 Start Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Generator 2 Start Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 301
+
+generator2startoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Generator 2 Start NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Generator 2 Start NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 302
+
+generator1failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Generator 1 Fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Generator 1 failure Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 303
+
+generator1failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Generator 1 Fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Generator 1 failure NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 304
+
+generator2failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Generator 2 Fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Generator 2 failure Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 305
+
+generator2failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Generator 2 Fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Generator 2 failure NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 306
+
+fuel1capacitylowon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Fuel 1 Low Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Fuel Tank -1 Low Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 307
+
+fuel1capacitylowoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Fuel 1 Low NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Fuel Tank -1 Low NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 308
+
+fuel2capacitylowon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Fuel 2 Low Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Fuel Tank -2 Low Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 309
+
+fuel2capacitylowoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Fuel 2 Low NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Fuel Tank -2 Low NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 310
+
+dcincominglinehighon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: DC incoming line High Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Solar converter PV Input High Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 311
+
+dcincominglinehighoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: DC incoming line  NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Solar converter PV Input High NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 312
+
+dcincominglinelowon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: DC incoming line Low Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Solar converter PV Input Low Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 313
+
+dcincominglinelowoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: DC incoming line  NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Solar converter PV Input Low NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 314
+
+rectifierfaulton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: DC Rectifier Fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Solar converter failure Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 315
+
+rectifierfaultoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: DC Rectifier Fail  NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Solar converter failure NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 316
+
+rectifierovercuurenton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: DC Rectifier Overcurrent Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Solar converter overcurrent Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 317
+
+rectifierovercuurentoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: DC Rectifier Overcurrent NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Solar converter overcurrent NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 318
+
+lvd3disconnecton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 3 is disconnect Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 3 is disconnected Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 319
+            
+lvd3disconnectoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 3 is disconnect NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 3 is disconnected NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 320
+         
+lvd4disconnecton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 4 is disconnect Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 4 is disconnected Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 321
+            
+lvd4disconnectoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 4 is disconnect NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 4 is disconnected NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 322
+
+lvd5disconnecton TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 5 is disconnect Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 5 is disconnected Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 323
+            
+lvd5disconnectoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 5 is disconnect NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 5 is disconnected NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 324
+
+   
+lvd3failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 3 is fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 3 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 325
+            
+lvd3failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 3 is fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 3 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 326
+         
+lvd4failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 4 is fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 4 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 327   
+                  
+lvd4failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 4 is fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 4 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 328  
+
+lvd5failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 5 is fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 5 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 329   
+                  
+lvd5failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Lvd 5 is fail NORMAL"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Lvd 5 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 330  
+
+bms1loston TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 1 lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 1 loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 331   
+   
+bms1lostoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 1 lost NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 1 loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 332
+
+bms2loston TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 2 lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 2 loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 333   
+   
+bms2lostoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 2 lost NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 2 loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 334
+
+bms3loston TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 3 lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 3 loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 335   
+   
+bms3lostoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 3 lost NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 3 loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 336
+
+bms4loston TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 4 lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 4 loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 337   
+   
+bms4lostoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 4 lost NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 4 loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 338
+
+bms5loston TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 5 lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 5 loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 339   
+   
+bms5lostoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 5 lost NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 5 loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 340
+
+bms6loston TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 6 lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 6 loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 341   
+   
+bms6lostoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 6 lost NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 6 loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 342
+
+bms7loston TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 7 lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 7 loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 343   
+   
+bms7lostoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 7 lost NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 7 loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 344
+
+bms8loston TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 8 lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 8 loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 345   
+   
+bms8lostoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 8 lost NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 8 loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 346
+
+bms9loston TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 9 lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 9 loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 347   
+   
+bms19ostoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 9 lost NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 9 loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 348
+
+bms10loston TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 10 lost Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 10 loss Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 349   
+   
+bms10lostoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 10 lost NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 10 loss NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 350
+
+bms1failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 1 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 1 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 351   
+   
+bms1failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 1 fail NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 1 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 352
+
+bms2failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 2 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 2 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 353  
+   
+bms2failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 2 fail NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 2 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 354
+
+bms3failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 3 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 3 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 355   
+   
+bms3failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 3 fail NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 3 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 356
+
+bms4failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 4 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 4 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 357   
+   
+bms4failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 4 fail NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 4 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 358
+  
+bms5failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 5 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 5 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 359   
+   
+bms5failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 5 fail NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 5 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 360
+  
+bms6failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 6 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 6 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 361   
+   
+bms6failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 6 fail NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 6 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 362  
+
+bms7failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 7 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 7 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 363   
+   
+bms7failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 7 fail NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 7 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 364
+ 
+bms8failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 8 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 8 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 365   
+   
+bms8failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 8 fail NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 8 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 366
+ 
+bms9failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 9 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 9 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 367   
+   
+bms9failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 9 fail NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 9 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 368
+
+bms10failon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 10 fail Active"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 10 fault Active"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 369   
+   
+bms10failoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: BMS 10 fail NORMAL "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "BMS 10 fault NORMAL"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 370   
+    
+stmcomfailon TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: STM Communication Fail"
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "STM Communication"
+   --#ARGUMENTS { }
+   --#SEVERITY CRITICAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 371   
+   
+stmcomfailoff TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: STM Communication Fail "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "STM Communication"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 372    
+   
+heartbeattrap TRAP-TYPE
+   ENTERPRISE enetek
+   DESCRIPTION
+      "INFORMATION: Heart Beat Trap "
+   --#TYPE "smu01 Trap 1"
+   --#SUMMARY "Heart Beat"
+   --#ARGUMENTS { }
+   --#SEVERITY INFORMATIONAL
+   --#TIMEINDEX 1
+   --#HELP ""
+   --#HELPTAG 0
+   --#STATE OPERATIONAL
+   ::= 999
+         
+END
