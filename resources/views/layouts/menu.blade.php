@@ -226,7 +226,7 @@
 
                     </ul>
                 </li>
-{{-- Services --}}
+{{-- Services
                 @config('show_services')
                     <li class="dropdown">
                         <a href="{{ url('services') }}" class="dropdown-toggle" data-hover="dropdown"
@@ -264,7 +264,8 @@
                         </ul>
                     </li>
                 @endconfig
-{{-- Ports --}}
+--}}
+{{-- Ports
                 <li class="dropdown">
                     <a href="{{ url('ports') }}" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown"><i
                             class="fa fa-link fa-fw fa-lg fa-nav-icons hidden-md" aria-hidden="true"></i> <span
@@ -363,6 +364,7 @@
                         @endif
                     </ul>
                 </li>
+--}}
 {{-- Sensors --}}
                 <li class="dropdown">
                     <a href="{{ url('health') }}" class="dropdown-toggle" data-hover="dropdown"
@@ -404,7 +406,7 @@
                         </ul>
                     </li>
                 @endif
-{{-- App --}}
+{{-- App
                 @if($app_menu->isNotEmpty())
                     <li class="dropdown">
                         <a href="{{ url('apps') }}" class="dropdown-toggle" data-hover="dropdown"
@@ -431,7 +433,8 @@
                         </ul>
                     </li>
                 @endif
-{{-- Routing --}}
+--}}
+{{-- Routing
                 @if($routing_menu)
                     <li class="dropdown">
                         <a href="{{ url('routing') }}" class="dropdown-toggle" data-hover="dropdown"
@@ -466,6 +469,7 @@
                         </ul>
                     </li>
                 @endif
+--}}
 {{-- Alerts --}}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown"><i
