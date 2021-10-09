@@ -4,6 +4,7 @@
     <table class="table table-hover table-condensed table-striped">
         <thead>
             <tr>
+                <th>Overview</th>
                 <th>@lang('Server Name')</th>
                 <th>@lang('Power Status')</th>
                 <th>@lang('Operating System')</th>
