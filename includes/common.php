@@ -960,38 +960,6 @@ function get_sql_filter_min_severity($min_severity, $alert_rules_name)
 }
 
 /**
- * Load the os definition for the device and set type and os_group
- * $device['os'] must be set
- *
- * @param  array  $device
- */
-function load_os(&$device)
-{
-    if (! isset($device['os'])) {
-        d_echo("No OS to load\n");
-
-        return;
-    }
-
-    \LibreNMS\Util\OS::loadDefinition($device['os']);
-
-    // Set type to a predefined type for the OS if it's not already set
-    $loaded_os_type = Config::get("os.{$device['os']}.type");
-    $model = DeviceCache::get($device['device_id']);
-    if (! $model->getAttrib('override_device_type') && $loaded_os_type != $model->type) {
-        $model->type = $loaded_os_type;
-        $model->save();
-        Log::debug("Device type changed to $loaded_os_type!");
-    }
-
-    if ($os_group = Config::get("os.{$device['os']}.group")) {
-        $device['os_group'] = $os_group;
-    } else {
-        unset($device['os_group']);
-    }
-}
-
-/**
  * Converts fahrenheit to celsius (with 2 decimal places)
  * if $scale is not fahrenheit, it assumes celsius and  returns the value
  *
@@ -1107,15 +1075,7 @@ function get_vm_parent_id($device)
  */
 function str_to_class($name, $namespace = null)
 {
-    $pre_format = str_replace(['-', '_'], ' ', $name);
-    $class = str_replace(' ', '', ucwords(strtolower($pre_format)));
-    $class = preg_replace_callback('/^(\d)(.)/', function ($matches) {
-        $numbers = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
-
-        return $numbers[$matches[1]] . strtoupper($matches[2]);
-    }, $class);
-
-    return $namespace . $class;
+    return \LibreNMS\Util\StringHelpers::toClass($name, $namespace);
 }
 
 /**
