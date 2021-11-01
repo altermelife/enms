@@ -20,7 +20,7 @@
             <ul class="nav navbar-nav">
 {{-- Overview --}}
                 <li class="dropdown">
-                    <a href="{{ route('overview') }}" class="dropdown-toggle" data-hover="dropdown"
+                    <a href="{{ route('dashboard') }}" class="dropdown-toggle" data-hover="dropdown"
                        data-toggle="dropdown"><i class="fa fa-tv fa-fw fa-lg" aria-hidden="true"></i> @lang('Dashboard')</a>
                             <ul class="dropdown-menu scrollable-menu">
                                 @foreach($dashboards as $dashboard)
