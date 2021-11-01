@@ -20,7 +20,8 @@
             <ul class="nav navbar-nav">
 {{-- Overview --}}
                 <li class="dropdown">
-                    <a href="{{ route('overview') }}"><i class="fa fa-tv fa-fw fa-lg" aria-hidden="true"></i> @lang('Dashboard')</a>
+                    <a href="{{ route('overview') }}" class="dropdown-toggle" data-hover="dropdown"
+                       data-toggle="dropdown"><i class="fa fa-tv fa-fw fa-lg" aria-hidden="true"></i> @lang('Dashboard')</a>
                             <ul class="dropdown-menu scrollable-menu">
                                 @foreach($dashboards as $dashboard)
                                 <li><a href="{{ route('overview', ['dashboard' => $dashboard->dashboard_id]) }}"><i class="fa fa-tv fa-fw fa-lg" aria-hidden="true"></i> {{ $dashboard->dashboard_name }}</a></li>
@@ -34,9 +35,7 @@
                                 </li>
                             </ul>
 
-                    <a href="{{ url('overview') }}" class="dropdown-toggle" data-hover="dropdown"
-                       data-toggle="dropdown"><i class="fa fa-home fa-fw fa-lg fa-nav-icons hidden-md"
-                                                 aria-hidden="true"></i> <span
+                    <a href="{{ url('overview') }}"><i class="fa fa-home fa-fw fa-lg fa-nav-icons hidden-md" aria-hidden="true"></i> <span
                             class="hidden-sm">@lang('Overview')</span></a>
                     <ul class="dropdown-menu multi-level" role="menu">
                         <li class="dropdown-submenu">
