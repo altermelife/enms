@@ -8,7 +8,14 @@
             <span title="@lang('Scheduled Maintenance')" class="fa fa-wrench fa-fw fa-lg"></span>
         @endif
         <span style="font-size: 20px;"><x-device-link :device="$device" /></span><br/>
-        <a href="{{ url('/devices/location=' . urlencode($device->location)) }}">{{ $device->location }}</a>
+        <a href="{{ url('/devices/location=' . urlencode($device->location)) }}">{{ $device->location }}</a> &nbsp;&nbsp;
+        &middot; <a href="http://{{ $device->hostname }}/cgi-bin/home" target="rFrame">Overview</a> &nbsp;
+        &middot; <a href="http://{{ $device->hostname }}/cgi-bin/dc_info" target="rFrame">DC Info</a> &nbsp;
+        &middot; <a href="http://{{ $device->hostname }}/cgi-bin/lvd_info" target="rFrame">LVD Info</a> &nbsp;
+        &middot; <a href="http://{{ $device->hostname }}/cgi-bin/running_info" target="rFrame">AC &amp; Temperature Info</a> &nbsp;
+        &middot; <a href="http://{{ $device->hostname }}/cgi-bin/battery_info" target="rFrame">Battery Info</a> &nbsp;
+        &middot; <a href="http://{{ $device->hostname }}/cgi-bin/bms_info" target="rFrame">BMS Info</a> &nbsp;
+        <br/>
     </div>
     <div class="pull-right">
         <div class="box-left">
