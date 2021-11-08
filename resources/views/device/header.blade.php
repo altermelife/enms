@@ -12,7 +12,8 @@
         &middot; <a href="http://{{ $device->hostname }}/cgi-bin/home" target="rFrame">Overview</a> &nbsp;
         &middot; <a href="http://{{ $device->hostname }}/cgi-bin/dc_info" target="rFrame">DC Info</a> &nbsp;
         &middot; <a href="http://{{ $device->hostname }}/cgi-bin/lvd_info" target="rFrame">LVD Info</a> &nbsp;
-        &middot; <a href="http://{{ $device->hostname }}/cgi-bin/running_info" target="rFrame">AC &amp; Temperature Info</a> &nbsp;
+        &middot; <a href="http://{{ $device->hostname }}/cgi-bin/running_info" target="rFrame">AC &amp; Temperature Info</a>
+        <br/>
         &middot; <a href="http://{{ $device->hostname }}/cgi-bin/battery_info" target="rFrame">Battery Info</a> &nbsp;
         &middot; <a href="http://{{ $device->hostname }}/cgi-bin/bms_info" target="rFrame">BMS Info</a> &nbsp;
         &middot; <a href="http://{{ $device->hostname }}/cgi-bin/dcdb03_info" target="rFrame">DC Monitor</a> &nbsp;
