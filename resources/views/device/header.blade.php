@@ -23,7 +23,7 @@
          </div>
          <div class="box-right">
             System Status:<br/>
-            <iframe src="http://{{ $device->hostname }}/cgi-bin/home" frameborder="0" scrolling="no" width="100%" height="500" align="right"></iframe>
+            <iframe src="http://{{ $device->hostname }}/cgi-bin/home" frameborder="0" scrolling="no" width="100%" height="500" align="right" name=rFrame></iframe>
          </div>
      </div>
 </x-panel>
