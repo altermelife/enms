@@ -15,6 +15,10 @@
         &middot; <a href="http://{{ $device->hostname }}/cgi-bin/running_info" target="rFrame">AC &amp; Temperature Info</a> &nbsp;
         &middot; <a href="http://{{ $device->hostname }}/cgi-bin/battery_info" target="rFrame">Battery Info</a> &nbsp;
         &middot; <a href="http://{{ $device->hostname }}/cgi-bin/bms_info" target="rFrame">BMS Info</a> &nbsp;
+        &middot; <a href="http://{{ $device->hostname }}/cgi-bin/dcdb03_info" target="rFrame">DC Monitor</a> &nbsp;
+        &middot; <a href="http://{{ $device->hostname }}/cgi-bin/di_info" target="rFrame">DI Status</a> &nbsp;
+        &middot; <a href="http://{{ $device->hostname }}/cgi-bin/do_info" target="rFrame">DO Status</a> &nbsp;
+        &middot; <a href="http://{{ $device->hostname }}/cgi-bin/gen_info" target="rFrame">Generator Info</a> &nbsp;
         <br/>
     </div>
     <div class="pull-right">
